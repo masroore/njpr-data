@@ -1,0 +1,10 @@
+chompjs
+databases
+datamodel-code-generator
+jmespath
+jsonschema
+pydantic
+pydbantic
+SQLAlchemy
+sqlmodel
+snakecase

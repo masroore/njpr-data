@@ -6,13 +6,13 @@ from pydantic import BaseModel, Field
 
 
 class TaxRate(BaseModel):
-    year: int = Field(...)
-    tax_rate: Optional[str] = Field(None)
-    ratio: Optional[str] = Field(None)
+    year: int
+    tax_rate: Optional[float] = Field(None)
+    ratio: Optional[float] = Field(None)
 
 
 class TaxRates(BaseModel):
-    municipality: str = Field(None, alias="MUNICIPALITY")
-    county: str = Field(None, alias="COUNTY")
-    town: str = Field(None, alias="TOWN")
+    municipality: str = Field(..., alias="MUNICIPALITY")
+    county: str = Field(..., alias="COUNTY")
+    town: str = Field(..., alias="TOWN")
     tax_rates: list[TaxRate] = []

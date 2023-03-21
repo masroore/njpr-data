@@ -7,6 +7,11 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from pydantic import BaseModel, Field
+from sqlalchemy import Integer
+
+from . import extra
+from datetime import date
+from pydbantic import DataBaseModel, PrimaryKey
 
 
 class LatLng(BaseModel):
@@ -17,8 +22,8 @@ class LatLng(BaseModel):
 class Target(BaseModel):
     property_code: Optional[str] = Field(None, alias="propertyCode")
     lat_lng: Optional[LatLng] = Field(None, alias="latLng")
-    municipality: Optional[Any] = None
-    zip: Optional[Any] = None
+    municipality: Optional[str] = None
+    zip: Optional[str] = None
 
 
 class ParcelCentroid(BaseModel):
@@ -32,7 +37,7 @@ class Rooftop(BaseModel):
 
 
 class PropertyInformation(BaseModel):
-    updated: Optional[str] = Field(None, alias="Updated")
+    updated: Optional[date] = Field(None, alias="Updated")
     gis_pin: Optional[str] = Field(None, alias="GIS_PIN")
     prior_gis_pin: Optional[str] = Field(None, alias="PRIOR_GIS_PIN")
     county_name: Optional[str] = Field(None, alias="COUNTY_NAME")
@@ -40,15 +45,15 @@ class PropertyInformation(BaseModel):
     municipality: Optional[str] = Field(None, alias="Municipality")
     block: Optional[str] = Field(None, alias="Block")
     lot: Optional[str] = Field(None, alias="Lot")
-    qual: Optional[Any] = Field(None, alias="Qual")
+    qual: Optional[str] = Field(None, alias="Qual")
     property_location: Optional[str] = Field(None, alias="Property_Location")
     owners_name: Optional[str] = Field(None, alias="Owners_Name")
     owners_mailing_address: Optional[str] = Field(None, alias="Owners_Mailing_Address")
     city_state_zip: Optional[str] = Field(None, alias="City_State_Zip")
-    deed_book: Optional[str] = Field(None, alias="Deed_Book")
-    deed_page: Optional[str] = Field(None, alias="Deed_Page")
+    deed_book: Optional[int] = Field(None, alias="Deed_Book")
+    deed_page: Optional[int] = Field(None, alias="Deed_Page")
     sale_price: Optional[int] = Field(None, alias="Sale_Price")
-    sale_date: Optional[str] = Field(None, alias="Sale_Date")
+    sale_date: Optional[date] = Field(None, alias="Sale_Date")
     nu_code: Optional[str] = Field(None, alias="NU_Code")
     property_class: Optional[str] = Field(None, alias="Property_Class")
     building_class: Optional[str] = Field(None, alias="Building_Class")
@@ -56,19 +61,19 @@ class PropertyInformation(BaseModel):
     building_desc: Optional[str] = Field(None, alias="Building_Desc")
     class_4_code: Optional[str] = Field(None, alias="Class_4_Code")
     yr_built: Optional[int] = Field(None, alias="Yr_Built")
-    zone: Optional[Any] = Field(None, alias="Zone")
+    zone: Optional[str] = Field(None, alias="Zone")
     sq_ft: Optional[int] = Field(None, alias="Sq_Ft")
     acreage: Optional[float] = Field(None, alias="Acreage")
     map_page: Optional[str] = Field(None, alias="Map_Page")
-    additional_lots: Optional[Any] = Field(None, alias="Additional_Lots")
+    additional_lots: Optional[str] = Field(None, alias="Additional_Lots")
     taxes_1: Optional[float] = Field(None, alias="Taxes_1")
-    taxes_2: Optional[int] = Field(None, alias="Taxes_2")
-    taxes_3: Optional[int] = Field(None, alias="Taxes_3")
-    taxes_4: Optional[int] = Field(None, alias="Taxes_4")
-    sp_tax_cd_1: Optional[Any] = Field(None, alias="Sp_Tax_Cd_1")
-    sp_tax_cd_2: Optional[Any] = Field(None, alias="Sp_Tax_Cd_2")
-    sp_tax_cd_3: Optional[Any] = Field(None, alias="Sp_Tax_Cd_3")
-    sp_tax_cd_4: Optional[Any] = Field(None, alias="Sp_Tax_Cd_4")
+    taxes_2: Optional[float] = Field(None, alias="Taxes_2")
+    taxes_3: Optional[float] = Field(None, alias="Taxes_3")
+    taxes_4: Optional[float] = Field(None, alias="Taxes_4")
+    sp_tax_cd_1: Optional[str] = Field(None, alias="Sp_Tax_Cd_1")
+    sp_tax_cd_2: Optional[str] = Field(None, alias="Sp_Tax_Cd_2")
+    sp_tax_cd_3: Optional[str] = Field(None, alias="Sp_Tax_Cd_3")
+    sp_tax_cd_4: Optional[str] = Field(None, alias="Sp_Tax_Cd_4")
     tax_rate: Optional[str] = Field(None, alias="TaxRate")
     tax_ratio: Optional[str] = Field(None, alias="TaxRatio")
     rate_year: Optional[str] = Field(None, alias="RateYear")
@@ -83,18 +88,18 @@ class PropertyInformation(BaseModel):
     epl_own: Optional[str] = Field(None, alias="EPL_Own")
     epl_use: Optional[str] = Field(None, alias="EPL_Use")
     epl_desc: Optional[str] = Field(None, alias="EPL_Desc")
-    epl_statute: Optional[Any] = Field(None, alias="EPL_Statute")
+    epl_statute: Optional[str] = Field(None, alias="EPL_Statute")
     epl_init: Optional[str] = Field(None, alias="EPL_Init")
     epl_further: Optional[str] = Field(None, alias="EPL_Further")
-    epl_facility_name: Optional[Any] = Field(None, alias="EPL_Facility_Name")
-    prior_block: Optional[Any] = Field(None, alias="Prior_Block")
-    prior_lot: Optional[Any] = Field(None, alias="Prior_Lot")
-    prior_qual: Optional[Any] = Field(None, alias="Prior_Qual")
+    epl_facility_name: Optional[str] = Field(None, alias="EPL_Facility_Name")
+    prior_block: Optional[str] = Field(None, alias="Prior_Block")
+    prior_lot: Optional[str] = Field(None, alias="Prior_Lot")
+    prior_qual: Optional[str] = Field(None, alias="Prior_Qual")
     ratio: Optional[float] = Field(None, alias="Ratio")
-    type_use: Optional[Any] = Field(None, alias="Type_Use")
+    type_use: Optional[str] = Field(None, alias="Type_Use")
     bank_code: Optional[str] = Field(None, alias="Bank_Code")
-    account: Optional[Any] = Field(None, alias="Account")
-    mortgage_account: Optional[Any] = Field(None, alias="Mortgage_Account")
+    account: Optional[str] = Field(None, alias="Account")
+    mortgage_account: Optional[str] = Field(None, alias="Mortgage_Account")
     year_1: Optional[int] = Field(None, alias="Year_1")
     owner_1: Optional[str] = Field(None, alias="Owner_1")
     street_1: Optional[str] = Field(None, alias="Street_1")
@@ -137,8 +142,8 @@ class PropertyInformation(BaseModel):
     p_city: Optional[str] = Field(None, alias="P_City")
     p_state: Optional[str] = Field(None, alias="P_State")
     p_zip: Optional[str] = Field(None, alias="P_Zip")
-    yr_built_raw: Optional[Any] = Field(None, alias="Yr_Built_Raw")
-    additional_lots_parsed: Optional[Any] = Field(None, alias="Additional_Lots_Parsed")
+    yr_built_raw: Optional[str] = Field(None, alias="Yr_Built_Raw")
+    additional_lots_parsed: Optional[str] = Field(None, alias="Additional_Lots_Parsed")
     prop_mail_error_code: Optional[str] = Field(None, alias="Prop_Mail_ErrorCode")
     owner_mail_error_code: Optional[str] = Field(None, alias="Owner_Mail_ErrorCode")
     prop_mail_house_num: Optional[str] = Field(None, alias="Prop_Mail_HouseNum")
@@ -163,7 +168,7 @@ class PropertyInformation(BaseModel):
     prop_mail_line_of_travel: Optional[str] = Field(
         None, alias="Prop_Mail_LineOfTravel"
     )
-    prop_mail_line_of_travel_1: Optional[Any] = Field(
+    prop_mail_line_of_travel_1: Optional[str] = Field(
         None, alias="Prop_MailLineOfTravel"
     )
     prop_mail_deliverable: Optional[str] = Field(None, alias="Prop_Mail_Deliverable")
@@ -218,7 +223,7 @@ class PropertyInformation(BaseModel):
     owner_mail_result_code: Optional[str] = Field(None, alias="Owner_Mail_ResultCode")
     direct_parties: Optional[str] = Field(None, alias="Direct_Parties")
     reverse_parties: Optional[str] = Field(None, alias="Reverse_Parties")
-    upi: Optional[Any] = Field(None, alias="UPI")
+    upi: Optional[str] = Field(None, alias="UPI")
     corporate_owned: Optional[bool] = Field(None, alias="Corporate_Owned")
     absentee: Optional[int] = Field(None, alias="Absentee")
     calculated_taxes: Optional[float] = Field(None, alias="Calculated_Taxes")
@@ -228,12 +233,12 @@ class PropertyInformation(BaseModel):
     census_tract: Optional[str] = Field(None, alias="Census_Tract")
     census_block: Optional[str] = Field(None, alias="Census_Block")
     census_code: Optional[str] = Field(None, alias="Census_Code")
-    is_redacted: Optional[Any] = Field(None, alias="isRedacted")
+    is_redacted: Optional[str] = Field(None, alias="isRedacted")
     lat_lng: Optional[LatLng] = Field(None, alias="latLng")
     parcel_centroid: Optional[ParcelCentroid] = Field(None, alias="parcelCentroid")
     rooftop: Optional[Rooftop] = None
     mun_updated: Optional[str] = Field(None, alias="MunUpdated")
-    zone_def: Optional[Any] = Field(None, alias="Zone_Def")
+    zone_def: Optional[str] = Field(None, alias="Zone_Def")
 
 
 class PropertyDeed(BaseModel):
@@ -242,15 +247,15 @@ class PropertyDeed(BaseModel):
     county_name: Optional[str] = Field(None, alias="COUNTY-NAME")
     district_code: Optional[str] = Field(None, alias="DISTRICT-CODE")
     district_name: Optional[str] = Field(None, alias="DISTRICT-NAME")
-    batch_number: Optional[Any] = Field(None, alias="BATCH-NUMBER")
+    batch_number: Optional[str] = Field(None, alias="BATCH-NUMBER")
     dln: Optional[str] = Field(None, alias="DLN")
-    operator_initials: Optional[Any] = Field(None, alias="OPERATOR-INITIALS")
+    operator_initials: Optional[str] = Field(None, alias="OPERATOR-INITIALS")
     last_update_date: Optional[str] = Field(None, alias="LAST-UPDATE-DATE")
-    questionnaire_status_code: Optional[Any] = Field(
+    questionnaire_status_code: Optional[str] = Field(
         None, alias="QUESTIONNAIRE-STATUS-CODE"
     )
-    questionnaire_date: Optional[Any] = Field(None, alias="QUESTIONNAIRE-DATE")
-    questionnaire_who_code: Optional[Any] = Field(None, alias="QUESTIONNAIRE-WHO-CODE")
+    questionnaire_date: Optional[str] = Field(None, alias="QUESTIONNAIRE-DATE")
+    questionnaire_who_code: Optional[str] = Field(None, alias="QUESTIONNAIRE-WHO-CODE")
     u_n_type: Optional[str] = Field(None, alias="U-N-TYPE")
     sr_nu_code: Optional[str] = Field(None, alias="SR-NU-CODE")
     reported_sales_price: Optional[int] = Field(None, alias="REPORTED-SALES-PRICE")
@@ -329,62 +334,62 @@ class PropertyDeed(BaseModel):
     living_space: Optional[str] = Field(None, alias="LIVING-SPACE")
     year: Optional[int] = Field(None, alias="YEAR")
     gis_pin: Optional[str] = Field(None, alias="GIS_PIN")
-    grantor_mail_house_num: Optional[Any] = Field(None, alias="Grantor_Mail_HouseNum")
-    grantor_mail_street_name: Optional[Any] = Field(
+    grantor_mail_house_num: Optional[str] = Field(None, alias="Grantor_Mail_HouseNum")
+    grantor_mail_street_name: Optional[str] = Field(
         None, alias="Grantor_Mail_StreetName"
     )
-    grantor_mail_suffix: Optional[Any] = Field(None, alias="Grantor_Mail_Suffix")
-    grantor_mail_sud: Optional[Any] = Field(None, alias="Grantor_Mail_SUD")
-    grantor_mail_city: Optional[Any] = Field(None, alias="Grantor_Mail_City")
-    grantor_mail_state: Optional[Any] = Field(None, alias="Grantor_Mail_State")
-    grantor_mail_zip: Optional[Any] = Field(None, alias="Grantor_Mail_Zip")
-    grantor_mail_zip4: Optional[Any] = Field(None, alias="Grantor_Mail_Zip4")
-    grantor_mail_unit_num: Optional[Any] = Field(None, alias="Grantor_Mail_UnitNum")
-    grantor_mail_suite: Optional[Any] = Field(None, alias="Grantor_Mail_Suite")
-    grantor_mail_company: Optional[Any] = Field(None, alias="Grantor_Mail_Company")
-    grantor_mail_pre_dir: Optional[Any] = Field(None, alias="Grantor_Mail_PreDir")
-    grantor_mail_post_dir: Optional[Any] = Field(None, alias="Grantor_Mail_PostDir")
-    grantor_mail_street: Optional[Any] = Field(None, alias="Grantor_Mail_Street")
-    grantor_mail_street2: Optional[Any] = Field(None, alias="Grantor_Mail_Street2")
-    grantor_mail_crrt: Optional[Any] = Field(None, alias="Grantor_Mail_CRRT")
-    grantor_mail_dpv: Optional[Any] = Field(None, alias="Grantor_Mail_DPV")
-    grantor_mail_left_overs: Optional[Any] = Field(None, alias="Grantor_Mail_LeftOvers")
-    grantor_mail_rdi: Optional[Any] = Field(None, alias="Grantor_Mail_RDI")
-    grantor_mail_corrections: Optional[Any] = Field(
+    grantor_mail_suffix: Optional[str] = Field(None, alias="Grantor_Mail_Suffix")
+    grantor_mail_sud: Optional[str] = Field(None, alias="Grantor_Mail_SUD")
+    grantor_mail_city: Optional[str] = Field(None, alias="Grantor_Mail_City")
+    grantor_mail_state: Optional[str] = Field(None, alias="Grantor_Mail_State")
+    grantor_mail_zip: Optional[str] = Field(None, alias="Grantor_Mail_Zip")
+    grantor_mail_zip4: Optional[str] = Field(None, alias="Grantor_Mail_Zip4")
+    grantor_mail_unit_num: Optional[str] = Field(None, alias="Grantor_Mail_UnitNum")
+    grantor_mail_suite: Optional[str] = Field(None, alias="Grantor_Mail_Suite")
+    grantor_mail_company: Optional[str] = Field(None, alias="Grantor_Mail_Company")
+    grantor_mail_pre_dir: Optional[str] = Field(None, alias="Grantor_Mail_PreDir")
+    grantor_mail_post_dir: Optional[str] = Field(None, alias="Grantor_Mail_PostDir")
+    grantor_mail_street: Optional[str] = Field(None, alias="Grantor_Mail_Street")
+    grantor_mail_street2: Optional[str] = Field(None, alias="Grantor_Mail_Street2")
+    grantor_mail_crrt: Optional[str] = Field(None, alias="Grantor_Mail_CRRT")
+    grantor_mail_dpv: Optional[str] = Field(None, alias="Grantor_Mail_DPV")
+    grantor_mail_left_overs: Optional[str] = Field(None, alias="Grantor_Mail_LeftOvers")
+    grantor_mail_rdi: Optional[str] = Field(None, alias="Grantor_Mail_RDI")
+    grantor_mail_corrections: Optional[str] = Field(
         None, alias="Grantor_Mail_Corrections"
     )
-    grantor_mail_result_code: Optional[Any] = Field(
+    grantor_mail_result_code: Optional[str] = Field(
         None, alias="Grantor_Mail_ResultCode"
     )
-    grantor_mail_error_code: Optional[Any] = Field(None, alias="Grantor_Mail_ErrorCode")
-    grantee_mail_house_num: Optional[Any] = Field(None, alias="Grantee_Mail_HouseNum")
-    grantee_mail_street_name: Optional[Any] = Field(
+    grantor_mail_error_code: Optional[str] = Field(None, alias="Grantor_Mail_ErrorCode")
+    grantee_mail_house_num: Optional[str] = Field(None, alias="Grantee_Mail_HouseNum")
+    grantee_mail_street_name: Optional[str] = Field(
         None, alias="Grantee_Mail_StreetName"
     )
-    grantee_mail_suffix: Optional[Any] = Field(None, alias="Grantee_Mail_Suffix")
-    grantee_mail_sud: Optional[Any] = Field(None, alias="Grantee_Mail_SUD")
-    grantee_mail_city: Optional[Any] = Field(None, alias="Grantee_Mail_City")
-    grantee_mail_state: Optional[Any] = Field(None, alias="Grantee_Mail_State")
-    grantee_mail_zip: Optional[Any] = Field(None, alias="Grantee_Mail_Zip")
-    grantee_mail_zip4: Optional[Any] = Field(None, alias="Grantee_Mail_Zip4")
-    grantee_mail_unit_num: Optional[Any] = Field(None, alias="Grantee_Mail_UnitNum")
-    grantee_mail_suite: Optional[Any] = Field(None, alias="Grantee_Mail_Suite")
-    grantee_mail_company: Optional[Any] = Field(None, alias="Grantee_Mail_Company")
-    grantee_mail_pre_dir: Optional[Any] = Field(None, alias="Grantee_Mail_PreDir")
-    grantee_mail_post_dir: Optional[Any] = Field(None, alias="Grantee_Mail_PostDir")
-    grantee_mail_street: Optional[Any] = Field(None, alias="Grantee_Mail_Street")
-    grantee_mail_street2: Optional[Any] = Field(None, alias="Grantee_Mail_Street2")
-    grantee_mail_crrt: Optional[Any] = Field(None, alias="Grantee_Mail_CRRT")
-    grantee_mail_dpv: Optional[Any] = Field(None, alias="Grantee_Mail_DPV")
-    grantee_mail_left_overs: Optional[Any] = Field(None, alias="Grantee_Mail_LeftOvers")
-    grantee_mail_rdi: Optional[Any] = Field(None, alias="Grantee_Mail_RDI")
-    grantee_mail_corrections: Optional[Any] = Field(
+    grantee_mail_suffix: Optional[str] = Field(None, alias="Grantee_Mail_Suffix")
+    grantee_mail_sud: Optional[str] = Field(None, alias="Grantee_Mail_SUD")
+    grantee_mail_city: Optional[str] = Field(None, alias="Grantee_Mail_City")
+    grantee_mail_state: Optional[str] = Field(None, alias="Grantee_Mail_State")
+    grantee_mail_zip: Optional[str] = Field(None, alias="Grantee_Mail_Zip")
+    grantee_mail_zip4: Optional[str] = Field(None, alias="Grantee_Mail_Zip4")
+    grantee_mail_unit_num: Optional[str] = Field(None, alias="Grantee_Mail_UnitNum")
+    grantee_mail_suite: Optional[str] = Field(None, alias="Grantee_Mail_Suite")
+    grantee_mail_company: Optional[str] = Field(None, alias="Grantee_Mail_Company")
+    grantee_mail_pre_dir: Optional[str] = Field(None, alias="Grantee_Mail_PreDir")
+    grantee_mail_post_dir: Optional[str] = Field(None, alias="Grantee_Mail_PostDir")
+    grantee_mail_street: Optional[str] = Field(None, alias="Grantee_Mail_Street")
+    grantee_mail_street2: Optional[str] = Field(None, alias="Grantee_Mail_Street2")
+    grantee_mail_crrt: Optional[str] = Field(None, alias="Grantee_Mail_CRRT")
+    grantee_mail_dpv: Optional[str] = Field(None, alias="Grantee_Mail_DPV")
+    grantee_mail_left_overs: Optional[str] = Field(None, alias="Grantee_Mail_LeftOvers")
+    grantee_mail_rdi: Optional[str] = Field(None, alias="Grantee_Mail_RDI")
+    grantee_mail_corrections: Optional[str] = Field(
         None, alias="Grantee_Mail_Corrections"
     )
-    grantee_mail_result_code: Optional[Any] = Field(
+    grantee_mail_result_code: Optional[str] = Field(
         None, alias="Grantee_Mail_ResultCode"
     )
-    grantee_mail_error_code: Optional[Any] = Field(None, alias="Grantee_Mail_ErrorCode")
+    grantee_mail_error_code: Optional[str] = Field(None, alias="Grantee_Mail_ErrorCode")
     match_method: Optional[str] = Field(None, alias="matchMethod")
     is_redacted: Optional[bool] = Field(None, alias="isRedacted")
 
@@ -397,7 +402,7 @@ class PropertyHistoryItem(BaseModel):
     municipality: Optional[str] = Field(None, alias="Municipality")
     block: Optional[str] = Field(None, alias="Block")
     lot: Optional[str] = Field(None, alias="Lot")
-    qual: Optional[Any] = Field(None, alias="Qual")
+    qual: Optional[str] = Field(None, alias="Qual")
     property_location: Optional[str] = Field(None, alias="Property_Location")
     property_class: Optional[str] = Field(None, alias="Property_Class")
     owners_name: Optional[str] = Field(None, alias="Owners_Name")
@@ -406,14 +411,14 @@ class PropertyHistoryItem(BaseModel):
     yr_built: Optional[int] = Field(None, alias="Yr_Built")
     building_class: Optional[int] = Field(None, alias="Building_Class")
     updated: Optional[str] = Field(None, alias="Updated")
-    zone: Optional[Any] = Field(None, alias="Zone")
+    zone: Optional[str] = Field(None, alias="Zone")
     bank_code: Optional[str] = Field(None, alias="Bank_Code")
-    sp_tax_cd_1: Optional[Any] = Field(None, alias="Sp_Tax_Cd_1")
-    sp_tax_cd_2: Optional[Any] = Field(None, alias="Sp_Tax_Cd_2")
-    sp_tax_cd_3: Optional[Any] = Field(None, alias="Sp_Tax_Cd_3")
-    sp_tax_cd_4: Optional[Any] = Field(None, alias="Sp_Tax_Cd_4")
+    sp_tax_cd_1: Optional[str] = Field(None, alias="Sp_Tax_Cd_1")
+    sp_tax_cd_2: Optional[str] = Field(None, alias="Sp_Tax_Cd_2")
+    sp_tax_cd_3: Optional[str] = Field(None, alias="Sp_Tax_Cd_3")
+    sp_tax_cd_4: Optional[str] = Field(None, alias="Sp_Tax_Cd_4")
     map_page: Optional[str] = Field(None, alias="Map_Page")
-    additional_lots: Optional[Any] = Field(None, alias="Additional_Lots")
+    additional_lots: Optional[str] = Field(None, alias="Additional_Lots")
     land_desc: Optional[str] = Field(None, alias="Land_Desc")
     acreage: Optional[float] = Field(None, alias="Acreage")
     building_desc: Optional[str] = Field(None, alias="Building_Desc")
@@ -422,7 +427,7 @@ class PropertyHistoryItem(BaseModel):
     epl_desc: Optional[str] = Field(None, alias="EPL_Desc")
     epl_init: Optional[str] = Field(None, alias="EPL_Init")
     epl_further: Optional[str] = Field(None, alias="EPL_Further")
-    epl_statute: Optional[Any] = Field(None, alias="EPL_Statute")
+    epl_statute: Optional[str] = Field(None, alias="EPL_Statute")
     epl_facility_name: Optional[str] = Field(None, alias="EPL_Facility_Name")
     sale_date: Optional[str] = Field(None, alias="Sale_Date")
     deed_book: Optional[str] = Field(None, alias="Deed_Book")
@@ -435,39 +440,39 @@ class PropertyHistoryItem(BaseModel):
     total_assmnt_2: Optional[int] = Field(None, alias="Total_Assmnt_2")
     record_id: Optional[str] = Field(None, alias="Record_Id")
     transaction_update_no: Optional[str] = Field(None, alias="Transaction_Update_No")
-    addition_lots_2: Optional[Any] = Field(None, alias="Addition_Lots_2")
+    addition_lots_2: Optional[str] = Field(None, alias="Addition_Lots_2")
     zip_code: Optional[str] = Field(None, alias="Zip_Code")
     street_address: Optional[str] = Field(None, alias="Street_Address")
     city_state: Optional[str] = Field(None, alias="City_State")
-    number_of_owners: Optional[Any] = Field(None, alias="Number_Of_Owners")
-    deduction_amount: Optional[Any] = Field(None, alias="Deduction_Amount")
+    number_of_owners: Optional[str] = Field(None, alias="Number_Of_Owners")
+    deduction_amount: Optional[str] = Field(None, alias="Deduction_Amount")
     sales_price_code: Optional[str] = Field(None, alias="Sales_Price_Code")
     sale_assessment: Optional[str] = Field(None, alias="Sale_Assessment")
     sale_sr1_a_un_code: Optional[str] = Field(None, alias="Sale_SR1A_Un_Code")
     no_of_dwellings: Optional[str] = Field(None, alias="No_Of_Dwellings")
-    no_of_commercial_dw: Optional[Any] = Field(None, alias="No_Of_Commercial_Dw")
-    multiple_occupancy: Optional[Any] = Field(None, alias="Multiple_Occupancy")
-    percent_owned_code: Optional[Any] = Field(None, alias="Percent_Owned_Code")
-    rebate_code: Optional[Any] = Field(None, alias="Rebate_Code")
-    delinquent_code: Optional[Any] = Field(None, alias="Delinquent_Code")
+    no_of_commercial_dw: Optional[str] = Field(None, alias="No_Of_Commercial_Dw")
+    multiple_occupancy: Optional[str] = Field(None, alias="Multiple_Occupancy")
+    percent_owned_code: Optional[str] = Field(None, alias="Percent_Owned_Code")
+    rebate_code: Optional[str] = Field(None, alias="Rebate_Code")
+    delinquent_code: Optional[str] = Field(None, alias="Delinquent_Code")
     exemption_code_1: Optional[str] = Field(None, alias="Exemption_Code_1")
-    exemption_amt_1: Optional[Any] = Field(None, alias="Exemption_AMT_1")
+    exemption_amt_1: Optional[str] = Field(None, alias="Exemption_AMT_1")
     exemption_code_2: Optional[str] = Field(None, alias="Exemption_Code_2")
-    exemption_amt_2: Optional[Any] = Field(None, alias="Exemption_AMT_2")
+    exemption_amt_2: Optional[str] = Field(None, alias="Exemption_AMT_2")
     exemption_code_3: Optional[str] = Field(None, alias="Exemption_Code_3")
-    exemption_amt_3: Optional[Any] = Field(None, alias="Exemption_AMT_3")
-    exemption_code_4: Optional[Any] = Field(None, alias="Exemption_Code_4")
-    exemption_amt_4: Optional[Any] = Field(None, alias="Exemption_AMT_4")
-    senior_citizens_cnt: Optional[Any] = Field(None, alias="Senior_Citizens_CNT")
-    veterans_cnt: Optional[Any] = Field(None, alias="Veterans_CNT")
-    widows_cnt: Optional[Any] = Field(None, alias="Widows_CNT")
-    surv_spouse_cnt: Optional[Any] = Field(None, alias="Surv_Spouse_CNT")
-    disabled_cnt: Optional[Any] = Field(None, alias="Disabled_CNT")
+    exemption_amt_3: Optional[str] = Field(None, alias="Exemption_AMT_3")
+    exemption_code_4: Optional[str] = Field(None, alias="Exemption_Code_4")
+    exemption_amt_4: Optional[str] = Field(None, alias="Exemption_AMT_4")
+    senior_citizens_cnt: Optional[str] = Field(None, alias="Senior_Citizens_CNT")
+    veterans_cnt: Optional[str] = Field(None, alias="Veterans_CNT")
+    widows_cnt: Optional[str] = Field(None, alias="Widows_CNT")
+    surv_spouse_cnt: Optional[str] = Field(None, alias="Surv_Spouse_CNT")
+    disabled_cnt: Optional[str] = Field(None, alias="Disabled_CNT")
     user_field_1: Optional[str] = Field(None, alias="User_Field_1")
     user_field_2: Optional[str] = Field(None, alias="User_Field_2")
-    property_use_code: Optional[Any] = Field(None, alias="Property_Use_Code")
+    property_use_code: Optional[str] = Field(None, alias="Property_Use_Code")
     property_flags: Optional[str] = Field(None, alias="Property_Flags")
-    rebate_response_flg: Optional[Any] = Field(None, alias="Rebate_Response_FLG")
+    rebate_response_flg: Optional[str] = Field(None, alias="Rebate_Response_FLG")
     rebate_base_year: Optional[str] = Field(None, alias="Rebate_Base_Year")
     rebate_base_year_tax: Optional[str] = Field(None, alias="Rebate_Base_Year_Tax")
     rebate_base_year_net_val: Optional[str] = Field(
@@ -491,7 +496,7 @@ class PropertyTax(BaseModel):
 
 
 class PropertyMortgage(BaseModel):
-    id: Optional[int] = None
+    mortgage_id: Optional[int] = Field(None, alias="id")
     gis_pin: Optional[str] = Field(None, alias="GIS_PIN")
     transaction_id: Optional[str] = None
     property_id: Optional[str] = None
@@ -603,7 +608,7 @@ class PropertyForeclosure(BaseModel):
     property_address_house_number: Optional[str] = Field(
         None, alias="PropertyAddressHouseNumber"
     )
-    property_address_street_direction: Optional[Any] = Field(
+    property_address_street_direction: Optional[str] = Field(
         None, alias="PropertyAddressStreetDirection"
     )
     property_address_street_name: Optional[str] = Field(
@@ -612,13 +617,13 @@ class PropertyForeclosure(BaseModel):
     property_address_street_suffix: Optional[str] = Field(
         None, alias="PropertyAddressStreetSuffix"
     )
-    property_address_street_post_direction: Optional[Any] = Field(
+    property_address_street_post_direction: Optional[str] = Field(
         None, alias="PropertyAddressStreetPostDirection"
     )
-    property_address_unit_prefix: Optional[Any] = Field(
+    property_address_unit_prefix: Optional[str] = Field(
         None, alias="PropertyAddressUnitPrefix"
     )
-    property_address_unit_value: Optional[Any] = Field(
+    property_address_unit_value: Optional[str] = Field(
         None, alias="PropertyAddressUnitValue"
     )
     property_address_city: Optional[str] = Field(None, alias="PropertyAddressCity")
@@ -626,13 +631,13 @@ class PropertyForeclosure(BaseModel):
     property_address_zip: Optional[str] = Field(None, alias="PropertyAddressZIP")
     property_address_zip4: Optional[str] = Field(None, alias="PropertyAddressZIP4")
     property_address_crrt: Optional[str] = Field(None, alias="PropertyAddressCRRT")
-    property_address_info_privacy: Optional[Any] = Field(
+    property_address_info_privacy: Optional[str] = Field(
         None, alias="PropertyAddressInfoPrivacy"
     )
     property_latitude: Optional[float] = Field(None, alias="PropertyLatitude")
     property_longitude: Optional[float] = Field(None, alias="PropertyLongitude")
     geo_quality: Optional[str] = Field(None, alias="GeoQuality")
-    zoned_code_local: Optional[Any] = Field(None, alias="ZonedCodeLocal")
+    zoned_code_local: Optional[str] = Field(None, alias="ZonedCodeLocal")
     property_use_muni: Optional[str] = Field(None, alias="PropertyUseMuni")
     property_use_group: Optional[str] = Field(None, alias="PropertyUseGroup")
     property_use_standardized: Optional[str] = Field(
@@ -647,80 +652,80 @@ class PropertyForeclosure(BaseModel):
     area_lot_sf: Optional[int] = Field(None, alias="AreaLotSF")
     area_lot_acres: Optional[float] = Field(None, alias="AreaLotAcres")
     year_built: Optional[int] = Field(None, alias="YearBuilt")
-    year_built_effective: Optional[Any] = Field(None, alias="YearBuiltEffective")
+    year_built_effective: Optional[str] = Field(None, alias="YearBuiltEffective")
     original_loan_recording_date: Optional[str] = Field(
         None, alias="OriginalLoanRecordingDate"
     )
     original_loan_instrument_number: Optional[str] = Field(
         None, alias="OriginalLoanInstrumentNumber"
     )
-    original_loan_book_page: Optional[Any] = Field(None, alias="OriginalLoanBookPage")
+    original_loan_book_page: Optional[str] = Field(None, alias="OriginalLoanBookPage")
     borrower_name_owner: Optional[str] = Field(None, alias="BorrowerNameOwner")
-    original_loan_loan_number: Optional[Any] = Field(
+    original_loan_loan_number: Optional[str] = Field(
         None, alias="OriginalLoanLoanNumber"
     )
     original_loan_amount: Optional[int] = Field(None, alias="OriginalLoanAmount")
-    original_loan_interest_rate: Optional[Any] = Field(
+    original_loan_interest_rate: Optional[str] = Field(
         None, alias="OriginalLoanInterestRate"
     )
-    loan_maturity_date: Optional[Any] = Field(None, alias="LoanMaturityDate")
+    loan_maturity_date: Optional[str] = Field(None, alias="LoanMaturityDate")
     lender_name_full_standardized: Optional[str] = Field(
         None, alias="LenderNameFullStandardized"
     )
-    lender_address: Optional[Any] = Field(None, alias="LenderAddress")
-    lender_address_house_number: Optional[Any] = Field(
+    lender_address: Optional[str] = Field(None, alias="LenderAddress")
+    lender_address_house_number: Optional[str] = Field(
         None, alias="LenderAddressHouseNumber"
     )
-    lender_address_street_direction: Optional[Any] = Field(
+    lender_address_street_direction: Optional[str] = Field(
         None, alias="LenderAddressStreetDirection"
     )
-    lender_address_street_name: Optional[Any] = Field(
+    lender_address_street_name: Optional[str] = Field(
         None, alias="LenderAddressStreetName"
     )
-    lender_address_street_suffix: Optional[Any] = Field(
+    lender_address_street_suffix: Optional[str] = Field(
         None, alias="LenderAddressStreetSuffix"
     )
-    lender_address_street_post_direction: Optional[Any] = Field(
+    lender_address_street_post_direction: Optional[str] = Field(
         None, alias="LenderAddressStreetPostDirection"
     )
-    lender_address_unit_value: Optional[Any] = Field(
+    lender_address_unit_value: Optional[str] = Field(
         None, alias="LenderAddressUnitValue"
     )
-    lender_address_city: Optional[Any] = Field(None, alias="LenderAddressCity")
-    lender_address_state: Optional[Any] = Field(None, alias="LenderAddressState")
-    lender_address_zip: Optional[Any] = Field(None, alias="LenderAddressZIP")
-    lender_phone: Optional[Any] = Field(None, alias="LenderPhone")
-    servicer_name: Optional[Any] = Field(None, alias="ServicerName")
+    lender_address_city: Optional[str] = Field(None, alias="LenderAddressCity")
+    lender_address_state: Optional[str] = Field(None, alias="LenderAddressState")
+    lender_address_zip: Optional[str] = Field(None, alias="LenderAddressZIP")
+    lender_phone: Optional[str] = Field(None, alias="LenderPhone")
+    servicer_name: Optional[str] = Field(None, alias="ServicerName")
     servicer_address: Optional[str] = Field(None, alias="ServicerAddress")
-    servicer_city: Optional[Any] = Field(None, alias="ServicerCity")
-    servicer_state: Optional[Any] = Field(None, alias="ServicerState")
-    servicer_zip: Optional[Any] = Field(None, alias="ServicerZip")
-    servicer_phone: Optional[Any] = Field(None, alias="ServicerPhone")
+    servicer_city: Optional[str] = Field(None, alias="ServicerCity")
+    servicer_state: Optional[str] = Field(None, alias="ServicerState")
+    servicer_zip: Optional[str] = Field(None, alias="ServicerZip")
+    servicer_phone: Optional[str] = Field(None, alias="ServicerPhone")
     trustee_name: Optional[str] = Field(None, alias="TrusteeName")
     trustee_address: Optional[str] = Field(None, alias="TrusteeAddress")
-    trustee_address_house_number: Optional[Any] = Field(
+    trustee_address_house_number: Optional[str] = Field(
         None, alias="TrusteeAddressHouseNumber"
     )
-    trustee_address_street_direction: Optional[Any] = Field(
+    trustee_address_street_direction: Optional[str] = Field(
         None, alias="TrusteeAddressStreetDirection"
     )
-    trustee_address_street_name: Optional[Any] = Field(
+    trustee_address_street_name: Optional[str] = Field(
         None, alias="TrusteeAddressStreetName"
     )
-    trustee_address_street_suffix: Optional[Any] = Field(
+    trustee_address_street_suffix: Optional[str] = Field(
         None, alias="TrusteeAddressStreetSuffix"
     )
-    trustee_address_street_post_direction: Optional[Any] = Field(
+    trustee_address_street_post_direction: Optional[str] = Field(
         None, alias="TrusteeAddressStreetPostDirection"
     )
-    trustee_address_unit_value: Optional[Any] = Field(
+    trustee_address_unit_value: Optional[str] = Field(
         None, alias="TrusteeAddressUnitValue"
     )
     trustee_address_city: Optional[str] = Field(None, alias="TrusteeAddressCity")
     trustee_address_state: Optional[str] = Field(None, alias="TrusteeAddressState")
     trustee_address_zip: Optional[str] = Field(None, alias="TrusteeAddressZIP")
     trustee_phone: Optional[str] = Field(None, alias="TrusteePhone")
-    foreclosure_instrument_date: Optional[Any] = Field(
+    foreclosure_instrument_date: Optional[str] = Field(
         None, alias="ForeclosureInstrumentDate"
     )
     foreclosure_recording_date: Optional[str] = Field(
@@ -729,32 +734,32 @@ class PropertyForeclosure(BaseModel):
     foreclosure_instrument_number: Optional[str] = Field(
         None, alias="ForeclosureInstrumentNumber"
     )
-    foreclosure_book_page: Optional[Any] = Field(None, alias="ForeclosureBookPage")
-    case_number: Optional[Any] = Field(None, alias="CaseNumber")
-    trustee_reference_number: Optional[Any] = Field(
+    foreclosure_book_page: Optional[str] = Field(None, alias="ForeclosureBookPage")
+    case_number: Optional[str] = Field(None, alias="CaseNumber")
+    trustee_reference_number: Optional[str] = Field(
         None, alias="TrusteeReferenceNumber"
     )
-    payment: Optional[Any] = Field(None, alias="Payment")
+    payment: Optional[str] = Field(None, alias="Payment")
     default_amount: Optional[int] = Field(None, alias="DefaultAmount")
-    penalty_interest: Optional[Any] = Field(None, alias="PenaltyInterest")
-    loan_balance: Optional[Any] = Field(None, alias="LoanBalance")
-    judgment_date: Optional[Any] = Field(None, alias="JudgmentDate")
+    penalty_interest: Optional[str] = Field(None, alias="PenaltyInterest")
+    loan_balance: Optional[str] = Field(None, alias="LoanBalance")
+    judgment_date: Optional[str] = Field(None, alias="JudgmentDate")
     judgment_amount: Optional[float] = Field(None, alias="JudgmentAmount")
-    courthouse: Optional[Any] = Field(None, alias="Courthouse")
+    courthouse: Optional[str] = Field(None, alias="Courthouse")
     auction_address: Optional[str] = Field(None, alias="AuctionAddress")
-    auction_house_number: Optional[Any] = Field(None, alias="AuctionHouseNumber")
-    auction_direction: Optional[Any] = Field(None, alias="AuctionDirection")
-    auction_street_name: Optional[Any] = Field(None, alias="AuctionStreetName")
-    auction_suffix: Optional[Any] = Field(None, alias="AuctionSuffix")
-    auction_post_direction: Optional[Any] = Field(None, alias="AuctionPostDirection")
-    auction_unit: Optional[Any] = Field(None, alias="AuctionUnit")
+    auction_house_number: Optional[str] = Field(None, alias="AuctionHouseNumber")
+    auction_direction: Optional[str] = Field(None, alias="AuctionDirection")
+    auction_street_name: Optional[str] = Field(None, alias="AuctionStreetName")
+    auction_suffix: Optional[str] = Field(None, alias="AuctionSuffix")
+    auction_post_direction: Optional[str] = Field(None, alias="AuctionPostDirection")
+    auction_unit: Optional[str] = Field(None, alias="AuctionUnit")
     auction_city: Optional[str] = Field(None, alias="AuctionCity")
     auction_date: Optional[str] = Field(None, alias="AuctionDate")
     auction_time: Optional[str] = Field(None, alias="AuctionTime")
     recorded_auction_opening_bid: Optional[int] = Field(
         None, alias="RecordedAuctionOpeningBid"
     )
-    estimated_value: Optional[Any] = Field(None, alias="EstimatedValue")
+    estimated_value: Optional[str] = Field(None, alias="EstimatedValue")
     create_date: Optional[str] = Field(None, alias="CreateDate")
     record_last_updated: Optional[str] = Field(None, alias="RecordLastUpdated")
     publication_date: Optional[str] = Field(None, alias="PublicationDate")
@@ -827,7 +832,13 @@ class VoterRegistrationItem(BaseModel):
     fire: Optional[str] = None
 
 
-class MunicipalityData(BaseModel):
+# from pynocular.database_model import database_model, UUID_STR
+from .db_info import db_info
+
+
+# @database_model("organizations", db_info)
+class MunicipalityData(DataBaseModel):
+    id: int | None = PrimaryKey(sqlalchemy_type=Integer, default=None)
     municipality: Optional[str] = Field(None, alias="Municipality")
     county: Optional[str] = Field(None, alias="County")
     name: Optional[str] = Field(None, alias="Name")
@@ -841,7 +852,7 @@ class MunicipalityData(BaseModel):
     d_clerk_name: Optional[str] = Field(None, alias="DClerk_Name")
     d_clerk_email: Optional[str] = Field(None, alias="DClerk_Email")
     clerk_phone: Optional[str] = Field(None, alias="Clerk_Phone")
-    d_clerk_phone: Optional[Any] = Field(None, alias="DClerk_Phone")
+    d_clerk_phone: Optional[str] = Field(None, alias="DClerk_Phone")
     clerk_fax: Optional[str] = Field(None, alias="Clerk_Fax")
     assessor_name: Optional[str] = Field(None, alias="Assessor_Name")
     assessor_email: Optional[str] = Field(None, alias="Assessor_Email")
@@ -851,92 +862,6 @@ class MunicipalityData(BaseModel):
     eng_phone: Optional[str] = Field(None, alias="ENG_phone")
     eng_email: Optional[str] = Field(None, alias="ENG_Email")
     eng_website: Optional[str] = Field(None, alias="ENG_Website")
-
-
-class TaxRates(BaseModel):
-    municipality: Optional[str] = Field(None, alias="MUNICIPALITY")
-    county: Optional[str] = Field(None, alias="COUNTY")
-    town: Optional[str] = Field(None, alias="TOWN")
-    field_2023_tax_rate: Optional[Any] = Field(None, alias="2023 TAX RATE")
-    field_2023_ratio: Optional[str] = Field(None, alias="2023 RATIO")
-    field_2022_tax_rate: Optional[str] = Field(None, alias="2022 TAX RATE")
-    field_2022_ratio: Optional[str] = Field(None, alias="2022 RATIO")
-    field_2021_tax_rate: Optional[str] = Field(None, alias="2021 TAX RATE")
-    field_2021_ratio: Optional[str] = Field(None, alias="2021 RATIO")
-    field_2020_tax_rate: Optional[str] = Field(None, alias="2020 TAX RATE")
-    field_2020_ratio: Optional[str] = Field(None, alias="2020 RATIO")
-    field_2019_tax_rate: Optional[str] = Field(None, alias="2019 TAX RATE")
-    field_2019_ratio: Optional[str] = Field(None, alias="2019 RATIO")
-    field_2018_tax_rate: Optional[str] = Field(None, alias="2018 TAX RATE")
-    field_2018_ratio: Optional[str] = Field(None, alias="2018 RATIO")
-    field_2017_tax_rate: Optional[str] = Field(None, alias="2017 TAX RATE")
-    field_2017_ratio: Optional[str] = Field(None, alias="2017 RATIO")
-    field_2016_tax_rate: Optional[str] = Field(None, alias="2016 TAX RATE")
-    field_2016_ratio: Optional[str] = Field(None, alias="2016 RATIO")
-    field_2015_tax_rate: Optional[str] = Field(None, alias="2015 TAX RATE")
-    field_2015_ratio: Optional[str] = Field(None, alias="2015 RATIO")
-    field_2014_tax_rate: Optional[str] = Field(None, alias="2014 TAX RATE")
-    field_2014_ratio: Optional[str] = Field(None, alias="2014 RATIO")
-    field_2013_tax_rate: Optional[str] = Field(None, alias="2013 TAX RATE")
-    field_2013_ratio: Optional[str] = Field(None, alias="2013 RATIO")
-    field_2012_tax_rate: Optional[str] = Field(None, alias="2012 TAX RATE")
-    field_2012_ratio: Optional[str] = Field(None, alias="2012 RATIO")
-    field_2011_tax_rate: Optional[str] = Field(None, alias="2011 TAX RATE")
-    field_2011_ratio: Optional[str] = Field(None, alias="2011 RATIO")
-    field_2010_tax_rate: Optional[str] = Field(None, alias="2010 TAX RATE")
-    field_2010_ratio: Optional[str] = Field(None, alias="2010 RATIO")
-    field_2009_tax_rate: Optional[str] = Field(None, alias="2009 TAX RATE")
-    field_2009_ratio: Optional[str] = Field(None, alias="2009 RATIO")
-    field_2008_tax_rate: Optional[str] = Field(None, alias="2008 TAX RATE")
-    field_2008_ratio: Optional[str] = Field(None, alias="2008 RATIO")
-    field_2007_tax_rate: Optional[str] = Field(None, alias="2007 TAX RATE")
-    field_2007_ratio: Optional[str] = Field(None, alias="2007 RATIO")
-    field_2006_tax_rate: Optional[str] = Field(None, alias="2006 TAX RATE")
-    field_2006_ratio: Optional[str] = Field(None, alias="2006 RATIO")
-    field_2005_tax_rate: Optional[str] = Field(None, alias="2005 TAX RATE")
-    field_2005_ratio: Optional[str] = Field(None, alias="2005 RATIO")
-    field_2004_tax_rate: Optional[str] = Field(None, alias="2004 TAX RATE")
-    field_2004_ratio: Optional[str] = Field(None, alias="2004 RATIO")
-    field_2003_tax_rate: Optional[str] = Field(None, alias="2003 TAX RATE")
-    field_2003_ratio: Optional[str] = Field(None, alias="2003 RATIO")
-    field_2002_tax_rate: Optional[str] = Field(None, alias="2002 TAX RATE")
-    field_2002_ratio: Optional[str] = Field(None, alias="2002 RATIO")
-    field_2001_tax_rate: Optional[str] = Field(None, alias="2001 TAX RATE")
-    field_2001_ratio: Optional[str] = Field(None, alias="2001 RATIO")
-    field_2000_tax_rate: Optional[str] = Field(None, alias="2000 TAX RATE")
-    field_2000_ratio: Optional[str] = Field(None, alias="2000 RATIO")
-    field_1999_tax_rate: Optional[str] = Field(None, alias="1999 TAX RATE")
-    field_1999_ratio: Optional[str] = Field(None, alias="1999 RATIO")
-    field_1998_tax_rate: Optional[str] = Field(None, alias="1998 TAX RATE")
-    field_1998_ratio: Optional[str] = Field(None, alias="1998 RATIO")
-    field_1997_tax_rate: Optional[str] = Field(None, alias="1997 TAX RATE")
-    field_1997_ratio: Optional[str] = Field(None, alias="1997 RATIO")
-    field_1996_tax_rate: Optional[str] = Field(None, alias="1996 TAX RATE")
-    field_1996_ratio: Optional[str] = Field(None, alias="1996 RATIO")
-    field_1995_tax_rate: Optional[str] = Field(None, alias="1995 TAX RATE")
-    field_1995_ratio: Optional[str] = Field(None, alias="1995 RATIO")
-    field_1994_tax_rate: Optional[str] = Field(None, alias="1994 TAX RATE")
-    field_1994_ratio: Optional[str] = Field(None, alias="1994 RATIO")
-    field_1993_tax_rate: Optional[str] = Field(None, alias="1993 TAX RATE")
-    field_1993_ratio: Optional[str] = Field(None, alias="1993 RATIO")
-    field_1992_tax_rate: Optional[str] = Field(None, alias="1992 TAX RATE")
-    field_1992_ratio: Optional[str] = Field(None, alias="1992 RATIO")
-    field_1991_tax_rate: Optional[str] = Field(None, alias="1991 TAX RATE")
-    field_1991_ratio: Optional[str] = Field(None, alias="1991 RATIO")
-    field_1990_tax_rate: Optional[str] = Field(None, alias="1990 TAX RATE")
-    field_1990_ratio: Optional[str] = Field(None, alias="1990 RATIO")
-    field_1989_tax_rate: Optional[str] = Field(None, alias="1989 TAX RATE")
-    field_1989_ratio: Optional[str] = Field(None, alias="1989 RATIO")
-    field_1988_tax_rate: Optional[str] = Field(None, alias="1988 TAX RATE")
-    field_1988_ratio: Optional[str] = Field(None, alias="1988 RATIO")
-    field_1987_tax_rate: Optional[str] = Field(None, alias="1987 TAX RATE")
-    field_1987_ratio: Optional[str] = Field(None, alias="1987 RATIO")
-    field_1986_tax_rate: Optional[str] = Field(None, alias="1986 TAX RATE")
-    field_1986_ratio: Optional[str] = Field(None, alias="1986 RATIO")
-    field_1985_tax_rate: Optional[str] = Field(None, alias="1985 TAX RATE")
-    field_1985_ratio: Optional[str] = Field(None, alias="1985 RATIO")
-    field_1984_tax_rate: Optional[str] = Field(None, alias="1984 TAX RATE")
-    field_1984_ratio: Optional[str] = Field(None, alias="1984 RATIO")
 
 
 class Geometry(BaseModel):
@@ -951,7 +876,7 @@ class Properties(BaseModel):
     block: Optional[str] = None
     lot: Optional[str] = None
     mun: Optional[str] = None
-    qcode: Optional[Any] = None
+    qcode: Optional[str] = None
     acres: Optional[float] = None
     sq_ft: Optional[float] = None
     lat: Optional[float] = None
@@ -991,14 +916,12 @@ class PrimaryData(BaseModel):
     voter_registration: Optional[list[VoterRegistrationItem]] = Field(
         None, alias="voterRegistration"
     )
-    not_found_property: Optional[bool] = Field(None, alias="notFoundProperty")
+    # not_found_property: Optional[bool] = Field(None, alias="notFoundProperty")
     municipality_data: Optional[MunicipalityData] = Field(
         None, alias="municipalityData"
     )
-    municipality_documents: Optional[list[str]] = Field(
-        None, alias="municipalityDocuments"
-    )
-    tax_rates: Optional[TaxRates] = Field(None, alias="taxRates")
+    # municipality_documents: Optional[list[str]] = Field(None, alias="municipalityDocuments")
+    tax_rates: Optional[extra.TaxRates] = Field(None, alias="taxRates")
     property_parcel: Optional[PropertyParcel] = Field(None, alias="propertyParcel")
 
 
@@ -1006,11 +929,11 @@ class AdditionalData(BaseModel):
     has_property_image: Optional[bool] = Field(None, alias="hasPropertyImage")
     flood_zones: Optional[list] = Field(None, alias="floodZones")
     wetlands: Optional[list] = None
-    property_utilities: Optional[Any] = Field(None, alias="propertyUtilities")
+    property_utilities: Optional[str] = Field(None, alias="propertyUtilities")
     property_broadband_coverage: Optional[list] = Field(
         None, alias="propertyBroadbandCoverage"
     )
-    property_census_data: Optional[Any] = Field(None, alias="propertyCensusData")
+    property_census_data: Optional[str] = Field(None, alias="propertyCensusData")
     potentially_related_properties: Optional[list] = Field(
         None, alias="potentiallyRelatedProperties"
     )
@@ -1018,8 +941,8 @@ class AdditionalData(BaseModel):
 
 class Model(BaseModel):
     target: Optional[Target] = None
-    is_loading: Optional[bool] = Field(None, alias="isLoading")
+    # is_loading: Optional[bool] = Field(None, alias="isLoading")
     primary_data: Optional[PrimaryData] = Field(None, alias="primaryData")
-    additional_data: Optional[AdditionalData] = Field(None, alias="additionalData")
-    selected_property: Optional[str] = Field(None, alias="selectedProperty")
-    selected_listing: Optional[Any] = Field(None, alias="selectedListing")
+    # additional_data: Optional[AdditionalData] = Field(None, alias="additionalData")
+    # selected_property: Optional[str] = Field(None, alias="selectedProperty")
+    # selected_listing: Optional[str] = Field(None, alias="selectedListing")

@@ -1,4 +1,5 @@
 import os
+from camel_converter import dict_to_snake, to_snake
 
 import jmespath
 import orjson as json
@@ -28,27 +29,17 @@ print(deeds)
 
 def split_label(s: str):
     parts = s.split(" ", 1)
-    return (int(parts[0]), slugify.slugify(parts[1], separator='_'))
+    return int(parts[0]), slugify.slugify(parts[1], separator='_')
 
-
-tax_rates = jmespath.search("primaryData.taxRates", data)
-rates = extra.TaxRates(**tax_rates)
-print(rates)
+rates_data = jmespath.search("primaryData.taxRates", data)
+dict_to_snake(rates_data)
+tax_rates = extra.TaxRates(**rates_data)
 
 tax_rows = {}
-for k, v in tax_rates.items():
+for k, v in rates_data.items():
     if k.startswith("20"):
         (year, field) = split_label(k)
-        if year in tax_rows:
-            row = tax_rows[year]
-        else:
-            row = {"year": year}
-
-        print(year)
-        print(field)
-        print(v)
-        print(row)
-        print("\n")
+        row = tax_rows.get(year, {"year": year})
 
         if v:
             v = v.replace('%', '')
@@ -57,13 +48,12 @@ for k, v in tax_rates.items():
             row.update({field: None})
 
         tax_rows[year] = row
-print(tax_rows)
 
 for tr in tax_rows.values():
     rate = extra.TaxRate(**tr)
-    rates.tax_rates.append(rate)
+    tax_rates.tax_rates.append(rate)
 
-print(rates)
+print(tax_rates)
 
 property = schema.Model(**data)
 with open("pydantinc.json", "wb") as fp:

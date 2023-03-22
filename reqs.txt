@@ -3,6 +3,7 @@ databases
 datamodel-code-generator
 jmespath
 jsonschema
+orjson
 pydantic
 pydbantic
 SQLAlchemy

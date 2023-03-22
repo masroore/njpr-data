@@ -55,7 +55,7 @@ for f in glob.glob('./scrapes/*.json'):
     with open(f) as fp:
         input = fp.read().strip()
 
-    input = json.dumps(dict_to_snake(json.loads(input))).decode('utf8')
+    input = json.dumps(dict_to_snake(json.loads(input)['primaryData'])).decode('utf8')
 
     output_file = os.path.abspath('./tmp/') + '/' + os.path.splitext(os.path.basename(f))[0] + '.py'
     # oldstdin = sys.stdin
@@ -65,6 +65,7 @@ for f in glob.glob('./scrapes/*.json'):
 
     main(
         [
+            "--force-optional",
             "--input-file-type",
             "json",
             "--use-standard-collections",

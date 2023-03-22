@@ -1,3 +1,4 @@
+import glob
 from typing import Pattern, Any
 
 from datamodel_code_generator.__main__ import main
@@ -22,11 +23,8 @@ def camel_to_snake(string: str) -> str:
 
 @lru_cache()
 def convert(s: str) -> str:
-    if '-' in s:
-        print(s)
-
+    # sanitize characters like ()-
     if s.endswith(')'):
-        print(s)
         s = s[:-1]
     s = s.replace('-', '_').replace('(', '_')
     return camel_to_snake(s)
@@ -34,7 +32,7 @@ def convert(s: str) -> str:
 
 def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
     converted: dict[Any, Any] = {}
-    for k, v in data.items():
+    for k, v in sorted(data.items()):
         if isinstance(k, str):
             key = convert(k)
         else:
@@ -52,23 +50,25 @@ def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
     return converted
 
 
-with open(os.path.abspath('./json/main.json')) as f:
-    input = f.read().strip()
+for f in glob.glob('./scrapes/*.json'):
+    print(os.path.basename(f))
+    with open(f) as fp:
+        input = fp.read().strip()
 
-input = json.dumps(dict_to_snake(json.loads(input))).decode('utf8')
+    input = json.dumps(dict_to_snake(json.loads(input))).decode('utf8')
 
-output_file = 'stdin_test.py'
-# oldstdin = sys.stdin
-# sys.stdin = open(os.path.abspath('./json/main.json'))
+    output_file = os.path.abspath('./tmp/') + '/' + os.path.splitext(os.path.basename(f))[0] + '.py'
+    # oldstdin = sys.stdin
+    # sys.stdin = open(os.path.abspath('./json/main.json'))
 
-sys.stdin = StringIO(input)
+    sys.stdin = StringIO(input)
 
-main(
-    [
-        "--input-file-type",
-        "json",
-        "--use-standard-collections",
-        '--output',
-        str(output_file),
-    ]
-)
+    main(
+        [
+            "--input-file-type",
+            "json",
+            "--use-standard-collections",
+            '--output',
+            str(output_file),
+        ]
+    )

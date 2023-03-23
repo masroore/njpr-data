@@ -21,21 +21,21 @@ def convert_text(txt: str) -> str:
     return _to_snake(txt)
 
 
-def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
+def dict_to_snake(data: dict[Any, Any], sort_output: bool = True) -> dict[Any, Any]:
     converted: dict[Any, Any] = {}
-    for k, v in sorted(data.items()):
+    for k, v in data.items():
         if isinstance(k, str):
             key = convert_text(k)
         else:
             key = k
 
         if isinstance(v, dict):
-            converted[key] = dict_to_snake(v)
+            converted[key] = dict_to_snake(v, sort_output)
         elif isinstance(v, list):
-            converted[key] = [dict_to_snake(x) if isinstance(x, dict) else x for x in v]
+            converted[key] = [dict_to_snake(x, sort_output) if isinstance(x, dict) else x for x in v]
         elif isinstance(v, tuple):
-            converted[key] = tuple(dict_to_snake(x) if isinstance(x, dict) else x for x in v)
+            converted[key] = tuple(dict_to_snake(x, sort_output) if isinstance(x, dict) else x for x in v)
         else:
             converted[key] = data[k]
 
-    return converted
+    return dict(sorted(converted.items())) if sort_output else converted

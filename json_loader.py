@@ -24,9 +24,9 @@ print(deeds)
 """
 
 
-def split_label(s: str):
+def split_label(s: str) -> tuple[int, str]:
     parts = s.split(" ", 1)
-    return int(parts[0]), slugify.slugify(parts[1], separator='_')
+    return int(parts[0]), slugify.slugify(parts[1], separator="_")
 
 
 async def pydantize(f):
@@ -34,7 +34,7 @@ async def pydantize(f):
     with open(f, "r") as fp:
         data = json.loads(fp.read())
 
-    j = json_schema.MunicipalityData(**data['primaryData']['municipalityData'])
+    j = json_schema.MunicipalityData(**data["primaryData"]["municipalityData"])
     d = db_schema.MunicipalityData(**j.dict())
 
     exit(0)
@@ -51,7 +51,7 @@ async def pydantize(f):
             row = tax_rows.get(year, {"year": year})
 
             if v:
-                v = v.replace('%', '')
+                v = v.replace("%", "")
                 row.update({field: float(v)})
             else:
                 row.update({field: None})
@@ -62,35 +62,35 @@ async def pydantize(f):
         rate = extra.TaxRate(**tr)
         taxRates.tax_rates.append(rate)
 
-    del data['primaryData']['taxRates']
-    '''
+    del data["primaryData"]["taxRates"]
+    """
     data['primaryData']['taxRates'] = taxRates.dict()
     print(taxRates)
     print(data['primaryData']['taxRates'])
     exit(0)
-    '''
+    """
 
     property = schema.Model(**data)
     property.primary_data.tax_rates = taxRates
 
-    await  property.primary_data.municipality_data.insert()
-    await  property.primary_data.municipality_data.save()
-    with open(os.path.abspath('./out/' + os.path.basename(f)), "wb") as fp:
+    await property.primary_data.municipality_data.insert()
+    await property.primary_data.municipality_data.save()
+    with open(os.path.abspath("./out/" + os.path.basename(f)), "wb") as fp:
         fp.write(json.dumps(property.dict(), option=json.OPT_INDENT_2))
 
 
 async def run():
     db = await Database.create(
-        'sqlite:///test.db',
+        "sqlite:///test.db",
         tables=[
             db_schema.MunicipalityData,
-        ]
+        ],
     )
 
-    for f in glob.glob('./scrapes/*.json'):
+    for f in glob.glob("./scrapes/*.json"):
         await pydantize(f)
         break
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     asyncio.run(main=run())

@@ -4,10 +4,10 @@ from functools import lru_cache
 
 _UNDER_SCORE_1: Pattern[str] = re.compile(r'([^_])([A-Z][a-z]+)')
 _UNDER_SCORE_2: Pattern[str] = re.compile('([a-z0-9])([A-Z])')
-_disallowed_chars = ['-', '(']
+_disallowed_chars = ['-', '(', ')']
 
 
-def camel_to_snake(txt: str) -> str:
+def _to_snake(txt: str) -> str:
     subbed = _UNDER_SCORE_1.sub(r'\1_\2', txt)
     return _UNDER_SCORE_2.sub(r'\1_\2', subbed).lower()
 
@@ -15,11 +15,10 @@ def camel_to_snake(txt: str) -> str:
 @lru_cache()
 def convert_text(txt: str) -> str:
     # sanitize characters like ()-
-    if txt.endswith(')'):
-        txt = txt[:-1]
     for c in _disallowed_chars:
         txt = txt.replace(c, '_')
-    return camel_to_snake(txt)
+    txt = txt.rstrip('_')
+    return _to_snake(txt)
 
 
 def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
@@ -39,4 +38,4 @@ def dict_to_snake(data: dict[Any, Any]) -> dict[Any, Any]:
         else:
             converted[key] = data[k]
 
-    return sorted(converted)
+    return converted

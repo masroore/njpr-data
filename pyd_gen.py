@@ -8,26 +8,32 @@ from io import StringIO
 
 # from camel_converter import dict_to_snake
 import orjson as json
-from smuggler.pre_processor import canonicalize_json_data
+from smuggler.pre_processor import canonicalize_json_data, reshape_json_data
 import re
 
 _UNDER_SCORE_1: Pattern[str] = re.compile(r"([^_])([A-Z][a-z]+)")
 _UNDER_SCORE_2: Pattern[str] = re.compile("([a-z0-9])([A-Z])")
 
-for f in glob.glob("./scrapes/*.json"):
+sort_ = True
+
+for f in glob.glob("./json/*.json"):
     print(os.path.basename(f))
     with open(f) as fp:
         input = fp.read().strip()
 
-    input = json.dumps(canonicalize_json_data(json.loads(input)["primaryData"]), False).decode(
-        "utf8"
-    )
+    loaded = json.loads(input)
+    if isinstance(loaded, list):
+        data = canonicalize_json_data(loaded[0], sort_)
+    else:
+        data = canonicalize_json_data(loaded, sort_)
+    data = reshape_json_data(data, sort_)
+    input = json.dumps(data, False).decode("utf8")
 
     output_file = (
-        os.path.abspath("./tmp/")
-        + "/"
-        + os.path.splitext(os.path.basename(f))[0]
-        + ".py"
+            os.path.abspath("./tmp/")
+            + "/"
+            + os.path.splitext(os.path.basename(f))[0]
+            + ".py"
     )
     # oldstdin = sys.stdin
     # sys.stdin = open(os.path.abspath('./json/main.json'))
@@ -40,6 +46,7 @@ for f in glob.glob("./scrapes/*.json"):
             "--input-file-type",
             "json",
             "--use-standard-collections",
+            "--snake-case",
             "--output",
             str(output_file),
         ]

@@ -23,7 +23,7 @@ def sanitize_attribute_name(txt: str) -> str:
     return _to_snake(txt)
 
 
-def canonicalize_json_data(data: dict[Any, Any], sort_keys: bool = True) -> dict[Any, Any]:
+def canonicalize_json_data(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
     result: dict[Any, Any] = {}
     for k, v in data.items():
         if isinstance(k, str):
@@ -60,6 +60,9 @@ def sort_dict(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
 
 
 def property_information_reshape_geolocations(src_data: dict[Any, Any]) -> dict[Any, Any]:
+    if "primary_data" not in src_data:
+        return src_data
+
     property_info = src_data['primary_data']['property_information']
     j_path = """primary_data.property_information.{
         %(prefix)slatitude: %(property)s.lat,
@@ -101,15 +104,22 @@ def property_information_purge_redundant_attributes(src_data: dict[Any, Any]) ->
 
 
 def reshape_property_information(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
+    if "primary_data" not in data:
+        return data
+
     data = property_information_reshape_geolocations(data)
     return data
 
 
 def reshape_property_deeds(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
+    if "primary_data" not in data:
+        return data
     return _rename_list_attribs(data, "property_deeds", 'display_', sort_keys)
 
 
 def reshape_tax_rates(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
+    if "primary_data" not in data:
+        return data
     # jmespath.search()
     return sort_dict(data, sort_keys)
 
@@ -120,6 +130,8 @@ def split_label(s: str) -> tuple[int, str]:
 
 
 def reshape_municipality_data(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
+    if "primary_data" not in data:
+        return data
     muni = jmespath.search("primary_data.municipality_data", data)
     # muni = data["primary_data"]["municipality_data"]
     rename_attributes(muni, 'municipality_')
@@ -151,10 +163,12 @@ def reshape_municipality_data(data: dict[Any, Any], sort_keys: bool) -> dict[Any
 
 
 def purge_redundant_attribs(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
-    purge_list = ['municipality_documents', ]
+    purge_list = ['municipality_documents', 'rating_description', ]
     for elem in purge_list:
-        if elem in data["primary_data"]:
+        if "primary_data" in data and elem in data["primary_data"]:
             del data["primary_data"][elem]
+        elif elem in data:
+            del data[elem]
 
     return data
 
@@ -171,10 +185,14 @@ def _rename_list_attribs(data: dict[Any, Any], elem_name: str, prefix: str, sort
 
 
 def reshape_property_tax_maps(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
+    if "primary_data" not in data:
+        return data
     return _rename_list_attribs(data, "property_tax_maps", 'display_', sort_keys)
 
 
 def reshape_property_mortgages(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
+    if "primary_data" not in data:
+        return data
     return _rename_list_attribs(data, "property_mortgages", 'display_', sort_keys)
 
 

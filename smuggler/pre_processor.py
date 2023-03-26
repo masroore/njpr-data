@@ -4,6 +4,8 @@ from functools import lru_cache
 import jmespath
 import slugify
 
+from .models import StatisticTypes
+
 _UNDER_SCORE_1: Pattern[str] = re.compile(r"([^_])([A-Z][a-z]+)")
 _UNDER_SCORE_2: Pattern[str] = re.compile("([a-z0-9])([A-Z])")
 _disallowed_chars = ["-", "(", ")"]
@@ -120,7 +122,7 @@ def reshape_property_deeds(data: dict[Any, Any], sort_keys: bool) -> dict[Any, A
 def reshape_tax_rates(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
     if "primary_data" not in data:
         return data
-    # jmespath.search()
+    # rename to municipality_tax_rates
     return sort_dict(data, sort_keys)
 
 
@@ -196,6 +198,27 @@ def reshape_property_mortgages(data: dict[Any, Any], sort_keys: bool) -> dict[An
     return _rename_list_attribs(data, "property_mortgages", 'display_', sort_keys)
 
 
+def reshape_demographics(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
+    if 'quick_facts' not in data and 'sex' not in data:
+        return data
+    qfacts = data['quick_facts']
+    data.update(qfacts)
+    del data['quick_facts']
+
+    demographic_stats = {
+        StatisticTypes.AGE.name: StatisticTypes.AGE,
+        StatisticTypes.SEX.name: StatisticTypes.SEX,
+        StatisticTypes.INCOME.name: StatisticTypes.INCOME,
+        StatisticTypes.EDUCATION.name: StatisticTypes.EDUCATION,
+        StatisticTypes.HOUSEHOLD_SIZE.name: StatisticTypes.HOUSEHOLD_SIZE,
+        StatisticTypes.RESIDENCE.name: StatisticTypes.RESIDENCE,
+    }
+    for name, typ in demographic_stats.items():
+        for item in data[name.lower()]:
+            item.update({'stat_type': typ})
+    return data
+
+
 _RESHAPERS = {
     "*": purge_redundant_attribs,
     "property_information": reshape_property_information,
@@ -204,6 +227,7 @@ _RESHAPERS = {
     "property_deeds": reshape_property_deeds,
     "property_tax_maps": reshape_property_tax_maps,
     "property_mortgages": reshape_property_mortgages,
+    "demographics": reshape_demographics,
 }
 
 

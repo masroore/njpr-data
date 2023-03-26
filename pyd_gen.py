@@ -1,15 +1,15 @@
 import glob
-from typing import Pattern, Any
-
-from datamodel_code_generator.__main__ import main
 import os
+import re
 import sys
 from io import StringIO
+from typing import Pattern
 
 # from camel_converter import dict_to_snake
 import orjson as json
+from datamodel_code_generator.__main__ import main
+
 from smuggler.pre_processor import canonicalize_json_data, reshape_json_data
-import re
 
 _UNDER_SCORE_1: Pattern[str] = re.compile(r"([^_])([A-Z][a-z]+)")
 _UNDER_SCORE_2: Pattern[str] = re.compile("([a-z0-9])([A-Z])")

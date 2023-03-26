@@ -59,7 +59,7 @@ async def pydantize(f):
             tax_rows[year] = row
 
     for tr in tax_rows.values():
-        rate = extra.TaxRate(**tr)
+        rate = extra.MunicipalityTaxRate(**tr)
         taxRates.tax_rates.append(rate)
 
     del data["primaryData"]["taxRates"]

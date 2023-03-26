@@ -1,7 +1,7 @@
 from enum import IntEnum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class PropertyInformation(BaseModel):
@@ -197,10 +197,10 @@ class PropertyInformation(BaseModel):
     '''
 
 
-class TaxRate(BaseModel):
+class MunicipalityTaxRate(BaseModel):
     year: int
-    tax_rate: Optional[float] = Field(None)
-    ratio: Optional[float] = Field(None)
+    tax_rate: Optional[float] = None
+    ratio: Optional[float] = None
 
 
 class MunicipalityData(BaseModel):
@@ -227,7 +227,7 @@ class MunicipalityData(BaseModel):
     name: Optional[str] = None
     opra_url: Optional[str] = None
     website: Optional[str] = None
-    tax_rates = Optional[list[TaxRate]] = None
+    #tax_rates = Optional[list[MunicipalityTaxRate]] = None
 
 
 class NearbyProperty(BaseModel):
@@ -663,7 +663,7 @@ class PropertyMortgage(BaseModel):
     type_financing_description: Optional[str] = None
     unique_link_id: Optional[str] = None
 
-
+'''
 class PropertyListing(BaseModel):
     acres: Optional[float] = None
     acrestax: Optional[str] = None
@@ -930,7 +930,7 @@ class PropertyListing(BaseModel):
     yearbuiltdesc: Optional[str] = None
     zipcodetax: Optional[str] = None
     zoning: Optional[str] = None
-
+'''
 
 class VoterRegistrationItem(BaseModel):
     apt_unit: Optional[str] = None
@@ -1236,7 +1236,7 @@ class StatisticTypes(IntEnum):
 
 
 class DemographicStatistic(BaseModel):
-    type: int = 0
+    stat_type: int = 0
     name: str
     value: float
 

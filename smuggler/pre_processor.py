@@ -45,11 +45,13 @@ def canonicalize_json_data(data: dict[Any, Any], sort_keys: bool) -> dict[Any, A
             result[key] = canonicalize_json_data(v, sort_keys)
         elif isinstance(v, list):
             result[key] = [
-                canonicalize_json_data(x, sort_keys) if isinstance(x, dict) else x for x in v
+                canonicalize_json_data(x, sort_keys) if isinstance(x, dict) else x
+                for x in v
             ]
         elif isinstance(v, tuple):
             result[key] = tuple(
-                canonicalize_json_data(x, sort_keys) if isinstance(x, dict) else x for x in v
+                canonicalize_json_data(x, sort_keys) if isinstance(x, dict) else x
+                for x in v
             )
         else:
             result[key] = v  # data[k]
@@ -61,11 +63,13 @@ def sort_dict(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
     return dict(sorted(data.items())) if sort_keys else data
 
 
-def property_information_reshape_geolocations(src_data: dict[Any, Any]) -> dict[Any, Any]:
+def property_information_reshape_geolocations(
+    src_data: dict[Any, Any]
+) -> dict[Any, Any]:
     if "primary_data" not in src_data:
         return src_data
 
-    property_info = src_data['primary_data']['property_information']
+    property_info = src_data["primary_data"]["property_information"]
     j_path = """primary_data.property_information.{
         %(prefix)slatitude: %(property)s.lat,
         %(prefix)slongitude: %(property)s.lng
@@ -79,9 +83,7 @@ def property_information_reshape_geolocations(src_data: dict[Any, Any]) -> dict[
     }
 
     for prop, prefix in flatten.items():
-        lat_lng = jmespath.search(
-            j_path % dict(prefix=prefix, property=prop), src_data
-        )
+        lat_lng = jmespath.search(j_path % dict(prefix=prefix, property=prop), src_data)
         del property_info[prop]
         property_info.update(lat_lng)
 
@@ -89,23 +91,31 @@ def property_information_reshape_geolocations(src_data: dict[Any, Any]) -> dict[
 
 
 def rename_attributes(src_data: dict[Any, Any], prefix: str) -> dict[Any, Any]:
-    search_list = ['id', ]
+    search_list = [
+        "id",
+    ]
     for attr in search_list:
         if attr in src_data:
             val = src_data[attr]
             del src_data[attr]
             # src_data[prefix + attr] = val
-            src_data.update({f'{prefix}{attr}': val})
+            src_data.update({f"{prefix}{attr}": val})
 
     return src_data
 
 
-def property_information_purge_redundant_attributes(src_data: dict[Any, Any]) -> dict[Any, Any]:
-    search_list = ['id', ]
+def property_information_purge_redundant_attributes(
+    src_data: dict[Any, Any]
+) -> dict[Any, Any]:
+    search_list = [
+        "id",
+    ]
     return src_data
 
 
-def reshape_property_information(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
+def reshape_property_information(
+    data: dict[Any, Any], sort_keys: bool
+) -> dict[Any, Any]:
     if "primary_data" not in data:
         return data
 
@@ -116,7 +126,7 @@ def reshape_property_information(data: dict[Any, Any], sort_keys: bool) -> dict[
 def reshape_property_deeds(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
     if "primary_data" not in data:
         return data
-    return _rename_list_attribs(data, "property_deeds", 'display_', sort_keys)
+    return _rename_list_attribs(data, "property_deeds", "display_", sort_keys)
 
 
 def reshape_tax_rates(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
@@ -136,7 +146,7 @@ def reshape_municipality_data(data: dict[Any, Any], sort_keys: bool) -> dict[Any
         return data
     muni = jmespath.search("primary_data.municipality_data", data)
     # muni = data["primary_data"]["municipality_data"]
-    rename_attributes(muni, 'municipality_')
+    rename_attributes(muni, "municipality_")
 
     rates_data = jmespath.search("primary_data.tax_rates", data)
 
@@ -157,15 +167,16 @@ def reshape_municipality_data(data: dict[Any, Any], sort_keys: bool) -> dict[Any
     tax_rates = [v for k, v in sorted(tax_rates.items())]
     del data["primary_data"]["tax_rates"]
 
-    muni.update({
-        "tax_rates": tax_rates
-    })
+    muni.update({"municipality_tax_rates": tax_rates})
 
     return sort_dict(data, sort_keys)
 
 
 def purge_redundant_attribs(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
-    purge_list = ['municipality_documents', 'rating_description', ]
+    purge_list = [
+        "municipality_documents",
+        "rating_description",
+    ]
     for elem in purge_list:
         if "primary_data" in data and elem in data["primary_data"]:
             del data["primary_data"][elem]
@@ -175,8 +186,10 @@ def purge_redundant_attribs(data: dict[Any, Any], sort_keys: bool) -> dict[Any, 
     return data
 
 
-def _rename_list_attribs(data: dict[Any, Any], elem_name: str, prefix: str, sort_keys: bool) -> dict[Any, Any]:
-    items = jmespath.search(f'primary_data.{elem_name}', data)
+def _rename_list_attribs(
+    data: dict[Any, Any], elem_name: str, prefix: str, sort_keys: bool
+) -> dict[Any, Any]:
+    items = jmespath.search(f"primary_data.{elem_name}", data)
     result = []
     for item in items:
         item = rename_attributes(item, prefix)
@@ -189,21 +202,21 @@ def _rename_list_attribs(data: dict[Any, Any], elem_name: str, prefix: str, sort
 def reshape_property_tax_maps(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
     if "primary_data" not in data:
         return data
-    return _rename_list_attribs(data, "property_tax_maps", 'display_', sort_keys)
+    return _rename_list_attribs(data, "property_tax_maps", "display_", sort_keys)
 
 
 def reshape_property_mortgages(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
     if "primary_data" not in data:
         return data
-    return _rename_list_attribs(data, "property_mortgages", 'display_', sort_keys)
+    return _rename_list_attribs(data, "property_mortgages", "display_", sort_keys)
 
 
 def reshape_demographics(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any]:
-    if 'quick_facts' not in data and 'sex' not in data:
+    if "quick_facts" not in data and "sex" not in data:
         return data
-    qfacts = data['quick_facts']
+    qfacts = data["quick_facts"]
     data.update(qfacts)
-    del data['quick_facts']
+    del data["quick_facts"]
 
     demographic_stats = {
         StatisticTypes.AGE.name: StatisticTypes.AGE,
@@ -215,7 +228,7 @@ def reshape_demographics(data: dict[Any, Any], sort_keys: bool) -> dict[Any, Any
     }
     for name, typ in demographic_stats.items():
         for item in data[name.lower()]:
-            item.update({'stat_type': typ})
+            item.update({"stat_type": typ})
     return data
 
 

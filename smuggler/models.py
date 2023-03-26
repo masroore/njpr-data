@@ -190,11 +190,11 @@ class PropertyInformation(BaseModel):
     zone: Optional[str] = None
     zone_def: Optional[str] = None
 
-    '''
+    """
     lat_lng: Optional[LatLng] = None
     parcel_centroid: Optional[ParcelCentroid] = None
     rooftop: Optional[Rooftop] = None
-    '''
+    """
 
 
 class MunicipalityTaxRate(BaseModel):
@@ -227,7 +227,7 @@ class MunicipalityData(BaseModel):
     name: Optional[str] = None
     opra_url: Optional[str] = None
     website: Optional[str] = None
-    #tax_rates = Optional[list[MunicipalityTaxRate]] = None
+    # tax_rates = Optional[list[MunicipalityTaxRate]] = None
 
 
 class NearbyProperty(BaseModel):
@@ -663,7 +663,8 @@ class PropertyMortgage(BaseModel):
     type_financing_description: Optional[str] = None
     unique_link_id: Optional[str] = None
 
-'''
+
+"""
 class PropertyListing(BaseModel):
     acres: Optional[float] = None
     acrestax: Optional[str] = None
@@ -930,7 +931,8 @@ class PropertyListing(BaseModel):
     yearbuiltdesc: Optional[str] = None
     zipcodetax: Optional[str] = None
     zoning: Optional[str] = None
-'''
+"""
+
 
 class VoterRegistrationItem(BaseModel):
     apt_unit: Optional[str] = None

@@ -18,9 +18,9 @@ for f in glob(os.path.abspath("./json/") + "/*.json"):
     )
     print(f'datamodel-codegen.exe {" ".join(options)} --input {f} --output {outfile}')
 
-'''
+"""
 outfile = os.path.abspath("./generated/schema.py")
 print(
     f"datamodel-codegen.exe {' '.join(options)} --input {os.path.abspath('./json/main.json')} --output {outfile}"
 )
-'''
+"""

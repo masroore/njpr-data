@@ -30,10 +30,10 @@ for f in glob.glob("./json/*.json"):
     input = json.dumps(data, False).decode("utf8")
 
     output_file = (
-            os.path.abspath("./tmp/")
-            + "/"
-            + os.path.splitext(os.path.basename(f))[0]
-            + ".py"
+        os.path.abspath("./tmp/")
+        + "/"
+        + os.path.splitext(os.path.basename(f))[0]
+        + ".py"
     )
     # oldstdin = sys.stdin
     # sys.stdin = open(os.path.abspath('./json/main.json'))

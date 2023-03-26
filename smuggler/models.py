@@ -1192,7 +1192,7 @@ class PotentiallyRelatedProperty(BaseModel):
     zone: Optional[str] = None
 
 
-class PropertyBroadbandCoverageItem(BaseModel):
+class PropertyBroadbandCoverage(BaseModel):
     block_code: Optional[str] = None
     business: Optional[int] = None
     consumer: Optional[str] = None

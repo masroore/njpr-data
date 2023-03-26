@@ -1,3 +1,4 @@
+from enum import IntEnum
 from typing import Optional
 
 from pydantic import BaseModel, Field
@@ -9,16 +10,16 @@ class PropertyInformation(BaseModel):
     acreage: Optional[float] = None
     additional_lots: Optional[str] = None
     additional_lots_parsed: Optional[str] = None
-    assessed_1: Optional[int] = None
-    assessed_2: Optional[int] = None
-    assessed_3: Optional[int] = None
-    assessed_4: Optional[int] = None
+    assessed_1: Optional[float] = None
+    assessed_2: Optional[float] = None
+    assessed_3: Optional[float] = None
+    assessed_4: Optional[float] = None
     bank_code: Optional[str] = None
     block: Optional[str] = None
-    building_assmnt_1: Optional[int] = None
-    building_assmnt_2: Optional[int] = None
-    building_assmnt_3: Optional[int] = None
-    building_assmnt_4: Optional[int] = None
+    building_assmnt_1: Optional[float] = None
+    building_assmnt_2: Optional[float] = None
+    building_assmnt_3: Optional[float] = None
+    building_assmnt_4: Optional[float] = None
     building_class: Optional[str] = None
     building_desc: Optional[str] = None
     calculated_taxes: Optional[float] = None
@@ -55,13 +56,12 @@ class PropertyInformation(BaseModel):
     exempt_4: Optional[str] = None
     gis_pin: Optional[str] = None
     is_redacted: Optional[str] = None
-    land_assmnt_1: Optional[int] = None
-    land_assmnt_2: Optional[int] = None
-    land_assmnt_3: Optional[int] = None
-    land_assmnt_4: Optional[int] = None
+    land_assmnt_1: Optional[float] = None
+    land_assmnt_2: Optional[float] = None
+    land_assmnt_3: Optional[float] = None
+    land_assmnt_4: Optional[float] = None
     land_desc: Optional[str] = None
     last_year_tax: Optional[str] = None
-    lat_lng: Optional[LatLng] = None
     lot: Optional[str] = None
     map_page: Optional[str] = None
     mortgage_account: Optional[str] = None
@@ -111,7 +111,6 @@ class PropertyInformation(BaseModel):
     p_city: Optional[str] = None
     p_state: Optional[str] = None
     p_zip: Optional[str] = None
-    parcel_centroid: Optional[ParcelCentroid] = None
     prior_block: Optional[str] = None
     prior_gis_pin: Optional[str] = None
     prior_lot: Optional[str] = None
@@ -154,9 +153,8 @@ class PropertyInformation(BaseModel):
     ratio: Optional[float] = None
     ratio_year: Optional[str] = None
     reverse_parties: Optional[str] = None
-    rooftop: Optional[Rooftop] = None
     sale_date: Optional[str] = None
-    sale_price: Optional[int] = None
+    sale_price: Optional[float] = None
     senior_citizens_cnt: Optional[str] = None
     sp_tax_cd_1: Optional[str] = None
     sp_tax_cd_2: Optional[str] = None
@@ -171,13 +169,13 @@ class PropertyInformation(BaseModel):
     tax_rate: Optional[str] = None
     tax_ratio: Optional[str] = None
     taxes_1: Optional[float] = None
-    taxes_2: Optional[int] = None
-    taxes_3: Optional[int] = None
-    taxes_4: Optional[int] = None
-    total_assmnt_1: Optional[int] = None
-    total_assmnt_2: Optional[int] = None
-    total_assmnt_3: Optional[int] = None
-    total_assmnt_4: Optional[int] = None
+    taxes_2: Optional[float] = None
+    taxes_3: Optional[float] = None
+    taxes_4: Optional[float] = None
+    total_assmnt_1: Optional[float] = None
+    total_assmnt_2: Optional[float] = None
+    total_assmnt_3: Optional[float] = None
+    total_assmnt_4: Optional[float] = None
     type_use: Optional[str] = None
     updated: Optional[str] = None
     upi: Optional[str] = None
@@ -191,6 +189,12 @@ class PropertyInformation(BaseModel):
     yr_built_raw: Optional[str] = None
     zone: Optional[str] = None
     zone_def: Optional[str] = None
+
+    '''
+    lat_lng: Optional[LatLng] = None
+    parcel_centroid: Optional[ParcelCentroid] = None
+    rooftop: Optional[Rooftop] = None
+    '''
 
 
 class TaxRate(BaseModel):
@@ -223,7 +227,7 @@ class MunicipalityData(BaseModel):
     name: Optional[str] = None
     opra_url: Optional[str] = None
     website: Optional[str] = None
-    tax_rates = Optional[list[TaxRate]] = []
+    tax_rates = Optional[list[TaxRate]] = None
 
 
 class NearbyProperty(BaseModel):
@@ -660,199 +664,6 @@ class PropertyMortgage(BaseModel):
     unique_link_id: Optional[str] = None
 
 
-class PropertyInformation(BaseModel):
-    absentee: Optional[int] = None
-    account: Optional[str] = None
-    acreage: Optional[float] = None
-    additional_lots: Optional[str] = None
-    additional_lots_parsed: Optional[str] = None
-    assessed_1: Optional[int] = None
-    assessed_2: Optional[int] = None
-    assessed_3: Optional[int] = None
-    assessed_4: Optional[int] = None
-    bank_code: Optional[str] = None
-    block: Optional[str] = None
-    building_assmnt_1: Optional[int] = None
-    building_assmnt_2: Optional[int] = None
-    building_assmnt_3: Optional[int] = None
-    building_assmnt_4: Optional[int] = None
-    building_class: Optional[str] = None
-    building_desc: Optional[str] = None
-    calculated_taxes: Optional[float] = None
-    calculated_taxes_year: Optional[int] = None
-    census_block: Optional[str] = None
-    census_code: Optional[str] = None
-    census_county: Optional[str] = None
-    census_state: Optional[str] = None
-    census_tract: Optional[str] = None
-    city_state_zip: Optional[str] = None
-    city_state_zip_1: Optional[str] = None
-    city_state_zip_2: Optional[str] = None
-    city_state_zip_3: Optional[str] = None
-    city_state_zip_4: Optional[str] = None
-    class_4_code: Optional[str] = None
-    corporate_owned: Optional[bool] = None
-    county_name: Optional[str] = None
-    deduction_amount: Optional[str] = None
-    deed_book: Optional[str] = None
-    deed_page: Optional[str] = None
-    direct_parties: Optional[str] = None
-    disabled_cnt: Optional[str] = None
-    district_name: Optional[str] = None
-    epl_desc: Optional[str] = None
-    epl_facility_name: Optional[str] = None
-    epl_further: Optional[str] = None
-    epl_init: Optional[str] = None
-    epl_own: Optional[str] = None
-    epl_statute: Optional[str] = None
-    epl_use: Optional[str] = None
-    exempt_1: Optional[str] = None
-    exempt_2: Optional[str] = None
-    exempt_3: Optional[str] = None
-    exempt_4: Optional[str] = None
-    gis_pin: Optional[str] = None
-    is_redacted: Optional[str] = None
-    land_assmnt_1: Optional[int] = None
-    land_assmnt_2: Optional[int] = None
-    land_assmnt_3: Optional[int] = None
-    land_assmnt_4: Optional[int] = None
-    land_desc: Optional[str] = None
-    last_year_tax: Optional[str] = None
-    lot: Optional[str] = None
-    map_page: Optional[str] = None
-    mortgage_account: Optional[str] = None
-    mun_updated: Optional[str] = None
-    municipality: Optional[str] = None
-    nu_code: Optional[str] = None
-    o_city: Optional[str] = None
-    o_state: Optional[str] = None
-    o_zip: Optional[str] = None
-    owner_1: Optional[str] = None
-    owner_2: Optional[str] = None
-    owner_3: Optional[str] = None
-    owner_4: Optional[str] = None
-    owner_mail_city: Optional[str] = None
-    owner_mail_cmra: Optional[str] = None
-    owner_mail_company: Optional[str] = None
-    owner_mail_corrections: Optional[str] = None
-    owner_mail_crrt: Optional[str] = None
-    owner_mail_deliverable: Optional[str] = None
-    owner_mail_dpv: Optional[str] = None
-    owner_mail_dpv_notes: Optional[str] = None
-    owner_mail_error_code: Optional[str] = None
-    owner_mail_false_positive: Optional[str] = None
-    owner_mail_house_num: Optional[str] = None
-    owner_mail_left_overs: Optional[str] = None
-    owner_mail_line_of_travel: Optional[str] = None
-    owner_mail_no_stats: Optional[str] = None
-    owner_mail_pbsa: Optional[str] = None
-    owner_mail_post_dir: Optional[str] = None
-    owner_mail_pre_dir: Optional[str] = None
-    owner_mail_rdi: Optional[str] = None
-    owner_mail_result_code: Optional[str] = None
-    owner_mail_state: Optional[str] = None
-    owner_mail_street: Optional[str] = None
-    owner_mail_street2: Optional[str] = None
-    owner_mail_street_name: Optional[str] = None
-    owner_mail_sud: Optional[str] = None
-    owner_mail_suffix: Optional[str] = None
-    owner_mail_suite: Optional[str] = None
-    owner_mail_unit_num: Optional[str] = None
-    owner_mail_usps_bar_code: Optional[str] = None
-    owner_mail_vacant_status: Optional[str] = None
-    owner_mail_zip: Optional[str] = None
-    owner_mail_zip4: Optional[str] = None
-    owners_mailing_address: Optional[str] = None
-    owners_name: Optional[str] = None
-    p_city: Optional[str] = None
-    p_state: Optional[str] = None
-    p_zip: Optional[str] = None
-    prior_block: Optional[str] = None
-    prior_gis_pin: Optional[str] = None
-    prior_lot: Optional[str] = None
-    prior_qual: Optional[str] = None
-    prop_mail_city: Optional[str] = None
-    prop_mail_cmra: Optional[str] = None
-    prop_mail_company: Optional[str] = None
-    prop_mail_corrections: Optional[str] = None
-    prop_mail_crrt: Optional[str] = None
-    prop_mail_deliverable: Optional[str] = None
-    prop_mail_dpv: Optional[str] = None
-    prop_mail_dpv_notes: Optional[str] = None
-    prop_mail_error_code: Optional[str] = None
-    prop_mail_false_positive: Optional[str] = None
-    prop_mail_house_num: Optional[str] = None
-    prop_mail_left_overs: Optional[str] = None
-    prop_mail_line_of_travel: Optional[str] = None
-    prop_mail_no_stats: Optional[str] = None
-    prop_mail_pbsa: Optional[str] = None
-    prop_mail_post_dir: Optional[str] = None
-    prop_mail_pre_dir: Optional[str] = None
-    prop_mail_rdi: Optional[str] = None
-    prop_mail_result_code: Optional[str] = None
-    prop_mail_state: Optional[str] = None
-    prop_mail_street: Optional[str] = None
-    prop_mail_street2: Optional[str] = None
-    prop_mail_street_name: Optional[str] = None
-    prop_mail_sud: Optional[str] = None
-    prop_mail_suffix: Optional[str] = None
-    prop_mail_suite: Optional[str] = None
-    prop_mail_unit_num: Optional[str] = None
-    prop_mail_usps_bar_code: Optional[str] = None
-    prop_mail_vacant_status: Optional[str] = None
-    prop_mail_zip: Optional[str] = None
-    prop_mail_zip4: Optional[str] = None
-    property_class: Optional[str] = None
-    property_location: Optional[str] = None
-    qual: Optional[str] = None
-    rate_year: Optional[str] = None
-    ratio: Optional[float] = None
-    ratio_year: Optional[str] = None
-    reverse_parties: Optional[str] = None
-    sale_date: Optional[str] = None
-    sale_price: Optional[int] = None
-    senior_citizens_cnt: Optional[str] = None
-    sp_tax_cd_1: Optional[str] = None
-    sp_tax_cd_2: Optional[str] = None
-    sp_tax_cd_3: Optional[str] = None
-    sp_tax_cd_4: Optional[str] = None
-    sq_ft: Optional[int] = None
-    street_1: Optional[str] = None
-    street_2: Optional[str] = None
-    street_3: Optional[str] = None
-    street_4: Optional[str] = None
-    surv_spouse_cnt: Optional[str] = None
-    tax_rate: Optional[str] = None
-    tax_ratio: Optional[str] = None
-    taxes_1: Optional[float] = None
-    taxes_2: Optional[int] = None
-    taxes_3: Optional[int] = None
-    taxes_4: Optional[int] = None
-    total_assmnt_1: Optional[int] = None
-    total_assmnt_2: Optional[int] = None
-    total_assmnt_3: Optional[int] = None
-    total_assmnt_4: Optional[int] = None
-    type_use: Optional[str] = None
-    updated: Optional[str] = None
-    upi: Optional[str] = None
-    veterans_cnt: Optional[str] = None
-    widows_cnt: Optional[str] = None
-    year_1: Optional[int] = None
-    year_2: Optional[int] = None
-    year_3: Optional[int] = None
-    year_4: Optional[int] = None
-    yr_built: Optional[int] = None
-    yr_built_raw: Optional[str] = None
-    zone: Optional[str] = None
-    zone_def: Optional[str] = None
-
-    '''
-    lat_lng: Optional[LatLng] = None
-    parcel_centroid: Optional[ParcelCentroid] = None
-    rooftop: Optional[Rooftop] = None
-    '''
-
-
 class PropertyListing(BaseModel):
     acres: Optional[float] = None
     acrestax: Optional[str] = None
@@ -1152,14 +963,312 @@ class VoterRegistrationItem(BaseModel):
     ward: Optional[str] = None
     zip: Optional[str] = None
 
+
 class PropertyTax(BaseModel):
     amount: Optional[float] = None
     amount_diff: Optional[float] = None
     amount_diff_currency: Optional[float] = None
-    difference_currency: Optional[int] = None
+    difference_currency: Optional[float] = None
     difference_percent: Optional[float] = None
-    improved: Optional[int] = None
-    land: Optional[int] = None
+    improved: Optional[float] = None
+    land: Optional[float] = None
     match_method: Optional[str] = None
-    total: Optional[int] = None
+    total: Optional[float] = None
     year: Optional[int] = None
+
+
+# walkscore
+class Walkscore(BaseModel):
+    walk_score: Optional[int]
+    walk_description: Optional[str]
+    bike_score: Optional[int]
+    bike_description: Optional[str]
+
+
+# schools
+class School(BaseModel):
+    city: Optional[str] = None
+    county: Optional[str] = None
+    distance: Optional[float] = None
+    district_id: Optional[int] = None
+    district_name: Optional[str] = None
+    fax: Optional[str] = None
+    fipscounty: Optional[int] = None
+    lat: Optional[float] = None
+    level: Optional[str] = None
+    level_codes: Optional[str] = None
+    lon: Optional[float] = None
+    name: Optional[str] = None
+    nces_id: Optional[str] = None
+    overview_url: Optional[str] = None
+    phone: Optional[str] = None
+    rating: Optional[str] = None
+    school_summary: Optional[str] = None
+    state: Optional[str] = None
+    state_id: Optional[str] = None
+    street: Optional[str] = None
+    type: Optional[str] = None
+    universal_id: Optional[str] = None
+    web_site: Optional[str] = None
+    year: Optional[int] = None
+    zip: Optional[str] = None
+
+
+# additional-data
+class PotentiallyRelatedProperty(BaseModel):
+    account: Optional[str] = None
+    acreage: Optional[float] = None
+    additional_lots: Optional[str] = None
+    additional_lots_parsed: Optional[str] = None
+    assessed_1: Optional[float] = None
+    assessed_2: Optional[float] = None
+    assessed_3: Optional[float] = None
+    assessed_4: Optional[float] = None
+    bank_code: Optional[str] = None
+    block: Optional[str] = None
+    building_assmnt_1: Optional[float] = None
+    building_assmnt_2: Optional[float] = None
+    building_assmnt_3: Optional[float] = None
+    building_assmnt_4: Optional[float] = None
+    building_class: Optional[str] = None
+    building_desc: Optional[str] = None
+    city_state_zip: Optional[str] = None
+    city_state_zip_1: Optional[str] = None
+    city_state_zip_2: Optional[str] = None
+    city_state_zip_3: Optional[str] = None
+    city_state_zip_4: Optional[str] = None
+    class_4_code: Optional[str] = None
+    county_name: Optional[str] = None
+    deduction_amount: Optional[float] = None
+    deed_book: Optional[int] = None
+    deed_page: Optional[int] = None
+    direct_parties: Optional[str] = None
+    disabled_cnt: Optional[str] = None
+    district_name: Optional[str] = None
+    epl_desc: Optional[str] = None
+    epl_facility_name: Optional[str] = None
+    epl_further: Optional[str] = None
+    epl_init: Optional[str] = None
+    epl_own: Optional[str] = None
+    epl_statute: Optional[str] = None
+    epl_use: Optional[str] = None
+    exempt_1: Optional[float] = None
+    exempt_2: Optional[float] = None
+    exempt_3: Optional[float] = None
+    exempt_4: Optional[float] = None
+    gis_pin: Optional[str] = None
+    land_assmnt_1: Optional[float] = None
+    land_assmnt_2: Optional[float] = None
+    land_assmnt_3: Optional[float] = None
+    land_assmnt_4: Optional[float] = None
+    land_desc: Optional[str] = None
+    last_year_tax: Optional[str] = None
+    lot: Optional[str] = None
+    map_page: Optional[str] = None
+    mortgage_account: Optional[str] = None
+    municipality: Optional[str] = None
+    nu_code: Optional[str] = None
+    o_city: Optional[str] = None
+    o_state: Optional[str] = None
+    o_zip: Optional[str] = None
+    owner_1: Optional[str] = None
+    owner_2: Optional[str] = None
+    owner_3: Optional[str] = None
+    owner_4: Optional[str] = None
+    owner_mail_city: Optional[str] = None
+    owner_mail_cmra: Optional[str] = None
+    owner_mail_company: Optional[str] = None
+    owner_mail_corrections: Optional[str] = None
+    owner_mail_crrt: Optional[str] = None
+    owner_mail_deliverable: Optional[str] = None
+    owner_mail_dpv: Optional[str] = None
+    owner_mail_dpv_notes: Optional[str] = None
+    owner_mail_error_code: Optional[str] = None
+    owner_mail_false_positive: Optional[str] = None
+    owner_mail_house_num: Optional[str] = None
+    owner_mail_left_overs: Optional[str] = None
+    owner_mail_line_of_travel: Optional[str] = None
+    owner_mail_no_stats: Optional[str] = None
+    owner_mail_pbsa: Optional[str] = None
+    owner_mail_post_dir: Optional[str] = None
+    owner_mail_pre_dir: Optional[str] = None
+    owner_mail_rdi: Optional[str] = None
+    owner_mail_result_code: Optional[str] = None
+    owner_mail_state: Optional[str] = None
+    owner_mail_street: Optional[str] = None
+    owner_mail_street2: Optional[str] = None
+    owner_mail_street_name: Optional[str] = None
+    owner_mail_sud: Optional[str] = None
+    owner_mail_suffix: Optional[str] = None
+    owner_mail_suite: Optional[str] = None
+    owner_mail_unit_num: Optional[str] = None
+    owner_mail_usps_bar_code: Optional[str] = None
+    owner_mail_vacant_status: Optional[str] = None
+    owner_mail_zip: Optional[str] = None
+    owner_mail_zip4: Optional[str] = None
+    owners_mailing_address: Optional[str] = None
+    owners_name: Optional[str] = None
+    p_city: Optional[str] = None
+    p_state: Optional[str] = None
+    p_zip: Optional[str] = None
+    prior_block: Optional[str] = None
+    prior_gis_pin: Optional[str] = None
+    prior_lot: Optional[str] = None
+    prior_qual: Optional[str] = None
+    prop_mail_city: Optional[str] = None
+    prop_mail_cmra: Optional[str] = None
+    prop_mail_company: Optional[str] = None
+    prop_mail_corrections: Optional[str] = None
+    prop_mail_crrt: Optional[str] = None
+    prop_mail_deliverable: Optional[str] = None
+    prop_mail_dpv: Optional[str] = None
+    prop_mail_dpv_notes: Optional[str] = None
+    prop_mail_error_code: Optional[str] = None
+    prop_mail_false_positive: Optional[str] = None
+    prop_mail_house_num: Optional[str] = None
+    prop_mail_left_overs: Optional[str] = None
+    prop_mail_line_of_travel: Optional[str] = None
+    prop_mail_no_stats: Optional[str] = None
+    prop_mail_pbsa: Optional[str] = None
+    prop_mail_post_dir: Optional[str] = None
+    prop_mail_pre_dir: Optional[str] = None
+    prop_mail_rdi: Optional[str] = None
+    prop_mail_result_code: Optional[str] = None
+    prop_mail_state: Optional[str] = None
+    prop_mail_street: Optional[str] = None
+    prop_mail_street2: Optional[str] = None
+    prop_mail_street_name: Optional[str] = None
+    prop_mail_sud: Optional[str] = None
+    prop_mail_suffix: Optional[str] = None
+    prop_mail_suite: Optional[str] = None
+    prop_mail_unit_num: Optional[str] = None
+    prop_mail_usps_bar_code: Optional[str] = None
+    prop_mail_vacant_status: Optional[str] = None
+    prop_mail_zip: Optional[str] = None
+    prop_mail_zip4: Optional[str] = None
+    property_class: Optional[str] = None
+    property_location: Optional[str] = None
+    qual: Optional[str] = None
+    rate_year: Optional[str] = None
+    ratio: Optional[int] = None
+    ratio_year: Optional[str] = None
+    reverse_parties: Optional[str] = None
+    sale_date: Optional[str] = None
+    sale_price: Optional[int] = None
+    senior_citizens_cnt: Optional[int] = None
+    sp_tax_cd_1: Optional[str] = None
+    sp_tax_cd_2: Optional[str] = None
+    sp_tax_cd_3: Optional[str] = None
+    sp_tax_cd_4: Optional[str] = None
+    sq_ft: Optional[int] = None
+    street_1: Optional[str] = None
+    street_2: Optional[str] = None
+    street_3: Optional[str] = None
+    street_4: Optional[str] = None
+    surv_spouse_cnt: Optional[int] = None
+    tax_rate: Optional[float] = None
+    tax_ratio: Optional[float] = None
+    taxes_1: Optional[float] = None
+    taxes_2: Optional[float] = None
+    taxes_3: Optional[float] = None
+    taxes_4: Optional[float] = None
+    total_assmnt_1: Optional[float] = None
+    total_assmnt_2: Optional[float] = None
+    total_assmnt_3: Optional[float] = None
+    total_assmnt_4: Optional[float] = None
+    type_use: Optional[str] = None
+    updated: Optional[str] = None
+    upi: Optional[str] = None
+    veterans_cnt: Optional[int] = None
+    widows_cnt: Optional[int] = None
+    year_1: Optional[int] = None
+    year_2: Optional[int] = None
+    year_3: Optional[int] = None
+    year_4: Optional[int] = None
+    yr_built: Optional[int] = None
+    yr_built_raw: Optional[str] = None
+    zone: Optional[str] = None
+
+
+class PropertyBroadbandCoverageItem(BaseModel):
+    block_code: Optional[str] = None
+    business: Optional[int] = None
+    consumer: Optional[str] = None
+    dba_name: Optional[str] = None
+    frn: Optional[str] = None
+    hoco_final: Optional[str] = None
+    hoco_num: Optional[str] = None
+    holding_company_name: Optional[str] = None
+    log_rec_no: Optional[str] = None
+    max_ad_down: Optional[float] = None
+    max_ad_up: Optional[float] = None
+    provider_id: Optional[str] = None
+    provider_name: Optional[str] = None
+    state_abbr: Optional[str] = None
+    tech_code: Optional[str] = None
+
+
+class PropertyCensusData(BaseModel):
+    census_block: Optional[str] = None
+    census_code: Optional[str] = None
+    census_county: Optional[str] = None
+    census_state: Optional[str] = None
+    census_tract: Optional[str] = None
+    gis_pin: Optional[str] = None
+
+
+class PropertyUtilities(BaseModel):
+    electric_provider: Optional[str] = None
+    gas_provider: Optional[str] = None
+    gis_pin: Optional[str] = None
+    sewer_service_area: Optional[str] = None
+    water_provider: Optional[str] = None
+
+
+# demographics
+class StatisticTypes(IntEnum):
+    AGE = 1
+    EDUCATION = 2
+    HOUSEHOLD_SIZE = 3
+    INCOME = 4
+    RESIDENCE = 5
+    SEX = 6
+
+
+class DemographicStatistic(BaseModel):
+    type: int = 0
+    name: str
+    value: float
+
+
+class Demographics(BaseModel):
+    # quick_facts
+    average_age: Optional[float] = None
+    average_household_income: Optional[int] = None
+    average_household_size: Optional[float] = None
+    children_percentage: Optional[float] = None
+    education_percentage: Optional[float] = None
+    employment_percentage: Optional[float] = None
+
+    age: Optional[list[DemographicStatistic]] = None
+    education: Optional[list[DemographicStatistic]] = None
+    household_size: Optional[list[DemographicStatistic]] = None
+    income: Optional[list[DemographicStatistic]] = None
+    residence: Optional[list[DemographicStatistic]] = None
+    sex: Optional[list[DemographicStatistic]] = None
+
+
+# contaminated-sites
+
+
+class ContaminatedSite(BaseModel):
+    address: Optional[str] = None
+    category: Optional[str] = None
+    comu_code: Optional[str] = None
+    county: Optional[str] = None
+    distance: Optional[float] = None
+    munic: Optional[str] = None
+    pi_name: Optional[str] = None
+    rem_level: Optional[str] = None
+    status: Optional[str] = None
+    zip_code: Optional[str] = None

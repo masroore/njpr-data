@@ -58,11 +58,22 @@ class Storage(object):
     def load(self, apn: str, section: str) -> str | None:
         return self.load_file(apn, f"{apn}^{section}.json")
 
+    def _append_suffix(self, filename: str) -> str:
+        if self._ext_suffix and not filename.endswith(self._ext_suffix):
+            filename += self._ext_suffix
+
+        return filename
+
+    def _remove_suffix(self, filename: str) -> str:
+        if self._ext_suffix and filename.endswith(self._ext_suffix):
+            return filename[:-len(self._ext_suffix)]
+
+        return filename
+
     def load_file(self, apn: str, filename: str) -> str | None:
         nested_folder = self.resolve_apn_base_folder(apn)
         file_path = os.path.join(nested_folder, filename)
-        if self._ext_suffix:
-            file_path += self._ext_suffix
+        file_path = self._append_suffix(file_path)
         if os.path.exists(file_path):
             with self._file_opener(file_path, "rb") as fp:
                 file_content = fp.read().decode("utf-8")
@@ -75,14 +86,13 @@ class Storage(object):
     def file_exists(self, apn: str, filename: str) -> bool:
         nested_folder = self.resolve_apn_base_folder(apn)
         file_path = os.path.join(nested_folder, filename)
-        if self._ext_suffix:
-            file_path += self._ext_suffix
+        file_path = self._append_suffix(file_path)
         return os.path.exists(file_path)
 
     def list_filenames_for_apn(self, apn: str) -> list[str]:
         apn_folder = self.resolve_apn_base_folder(apn)
         return [
-            os.path.basename(f)
+            self._remove_suffix(os.path.basename(f))
             for f in os.listdir(apn_folder)
             if os.path.isfile(os.path.join(apn_folder, f))
         ]

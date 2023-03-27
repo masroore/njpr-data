@@ -5,15 +5,18 @@ import json
 from smuggler import mapper, pre_processor
 from smuggler.storage import Storage, StorageCompression
 
+import smuggler.models as models
+from database import create_db_and_tables
+
+
 apns = ['0107_599_8.03', '0107_599_8.02', '0107_599_8.01', '0107_599_7', '0107_571_16', '0107_599_9']
 
 
 def normalize_sections(sections: list[str]) -> list[str]:
     sections = sorted(sections)
     if not 'main' in sections:
-        # ignore if main is not present
-        return []
-        # return sections
+        # return [] # ignore if main is not present
+        return sections
 
     sections.insert(0, sections.pop(sections.index('main')))
     return sections
@@ -50,5 +53,6 @@ def smuggle_in(apn: str):
         print("\n")
 
 
+create_db_and_tables()
 for apn in apns:
     smuggle_in(apn)

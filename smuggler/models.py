@@ -1,10 +1,22 @@
 from enum import IntEnum
 from typing import Optional
 
-from pydantic import BaseModel
+from sqlalchemy.orm import declared_attr
+from sqlmodel import Field, SQLModel
+
+from .utils import table_name
 
 
-class PropertyInformation(BaseModel):
+class SQLModel_(SQLModel):
+    @declared_attr
+    def __tablename__(cls) -> str:
+        return table_name(cls.__name__)
+
+
+class PropertyInformation(SQLModel, table=True):
+    __tablename__ = "properties"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    gis_pin: str = Field(unique=True)
     absentee: Optional[int] = None
     account: Optional[str] = None
     acreage: Optional[float] = None
@@ -54,7 +66,6 @@ class PropertyInformation(BaseModel):
     exempt_2: Optional[str] = None
     exempt_3: Optional[str] = None
     exempt_4: Optional[str] = None
-    gis_pin: Optional[str] = None
     is_redacted: Optional[str] = None
     land_assmnt_1: Optional[float] = None
     land_assmnt_2: Optional[float] = None
@@ -197,13 +208,17 @@ class PropertyInformation(BaseModel):
     """
 
 
-class MunicipalityTaxRate(BaseModel):
+class MunicipalityTaxRate(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    municipality_id: Optional[int] = Field(default=None, index=True, foreign_key="municipalities.id")
     year: int
     tax_rate: Optional[float] = None
     ratio: Optional[float] = None
 
 
-class MunicipalityData(BaseModel):
+class MunicipalityData(SQLModel, table=True):
+    __tablename__ = "municipalities"
+    id: Optional[int] = Field(default=None, primary_key=True)
     assessor_email: Optional[str] = None
     assessor_name: Optional[str] = None
     assessor_phone: Optional[str] = None
@@ -230,12 +245,16 @@ class MunicipalityData(BaseModel):
     # tax_rates = Optional[list[MunicipalityTaxRate]] = None
 
 
-class NearbyProperty(BaseModel):
-    gis_pin: Optional[str] = None
+class NearbyProperty(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
+    gis_pin: str
     property_location: Optional[str] = None
 
 
-class PropertyDeed(BaseModel):
+class PropertyDeed(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     addl_block_1: Optional[str] = None
     addl_block_2: Optional[str] = None
     addl_block_3: Optional[str] = None
@@ -374,7 +393,9 @@ class PropertyDeed(BaseModel):
     year_built: Optional[int] = None
 
 
-class PropertyForeclosure(BaseModel):
+class PropertyForeclosure(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     area_building: Optional[int] = None
     area_building_definition_code: Optional[str] = None
     area_lot_acres: Optional[float] = None
@@ -480,7 +501,9 @@ class PropertyForeclosure(BaseModel):
     zoned_code_local: Optional[str] = None
 
 
-class PropertyHistory(BaseModel):
+class PropertyHistory(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     acreage: Optional[float] = None
     addition_lots_2: Optional[str] = None
     additional_lots: Optional[str] = None
@@ -566,7 +589,9 @@ class PropertyHistory(BaseModel):
     zone: Optional[str] = None
 
 
-class PropertyMortgage(BaseModel):
+class PropertyMortgage(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     adjustable_rate_index: Optional[str] = None
     adjustable_rate_rider: Optional[str] = None
     assessors_land_use: Optional[str] = None
@@ -665,7 +690,7 @@ class PropertyMortgage(BaseModel):
 
 
 """
-class PropertyListing(BaseModel):
+class PropertyListing(SQLModel, table=True):
     acres: Optional[float] = None
     acrestax: Optional[str] = None
     addressincluded: Optional[str] = None
@@ -934,7 +959,10 @@ class PropertyListing(BaseModel):
 """
 
 
-class VoterRegistrationItem(BaseModel):
+class VoterRegistrationItem(SQLModel, table=True):
+    __tablename__ = "voter_registrations"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     apt_unit: Optional[str] = None
     city: Optional[str] = None
     congressional: Optional[str] = None
@@ -966,7 +994,9 @@ class VoterRegistrationItem(BaseModel):
     zip: Optional[str] = None
 
 
-class PropertyTax(BaseModel):
+class PropertyTax(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     amount: Optional[float] = None
     amount_diff: Optional[float] = None
     amount_diff_currency: Optional[float] = None
@@ -980,7 +1010,9 @@ class PropertyTax(BaseModel):
 
 
 # walkscore
-class Walkscore(BaseModel):
+class Walkscore(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     walk_score: Optional[int]
     walk_description: Optional[str]
     bike_score: Optional[int]
@@ -988,7 +1020,9 @@ class Walkscore(BaseModel):
 
 
 # schools
-class School(BaseModel):
+class School(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     city: Optional[str] = None
     county: Optional[str] = None
     distance: Optional[float] = None
@@ -1017,7 +1051,9 @@ class School(BaseModel):
 
 
 # additional-data
-class PotentiallyRelatedProperty(BaseModel):
+class PotentiallyRelatedProperty(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     account: Optional[str] = None
     acreage: Optional[float] = None
     additional_lots: Optional[str] = None
@@ -1192,7 +1228,9 @@ class PotentiallyRelatedProperty(BaseModel):
     zone: Optional[str] = None
 
 
-class PropertyBroadbandCoverage(BaseModel):
+class PropertyBroadbandCoverage(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     block_code: Optional[str] = None
     business: Optional[int] = None
     consumer: Optional[str] = None
@@ -1210,7 +1248,10 @@ class PropertyBroadbandCoverage(BaseModel):
     tech_code: Optional[str] = None
 
 
-class PropertyCensusData(BaseModel):
+class PropertyCensusData(SQLModel, table=True):
+    __tablename__ = "property_census"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     census_block: Optional[str] = None
     census_code: Optional[str] = None
     census_county: Optional[str] = None
@@ -1219,7 +1260,9 @@ class PropertyCensusData(BaseModel):
     gis_pin: Optional[str] = None
 
 
-class PropertyUtilities(BaseModel):
+class PropertyUtilities(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     electric_provider: Optional[str] = None
     gas_provider: Optional[str] = None
     gis_pin: Optional[str] = None
@@ -1237,13 +1280,17 @@ class StatisticTypes(IntEnum):
     SEX = 6
 
 
-class DemographicStatistic(BaseModel):
+class DemographicStatistic(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    demographics_id: int = Field(index=True, foreign_key="demographics.id")
     stat_type: int = 0
     name: str
     value: float
 
 
-class Demographics(BaseModel):
+class Demographics(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     # quick_facts
     average_age: Optional[float] = None
     average_household_income: Optional[int] = None
@@ -1263,7 +1310,9 @@ class Demographics(BaseModel):
 # contaminated-sites
 
 
-class ContaminatedSite(BaseModel):
+class ContaminatedSite(SQLModel_, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    property_id: int = Field(index=True, foreign_key="properties.id")
     address: Optional[str] = None
     category: Optional[str] = None
     comu_code: Optional[str] = None

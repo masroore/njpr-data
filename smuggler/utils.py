@@ -12,6 +12,8 @@ def snake_case(input: str) -> str:
 
 def table_name(input: str) -> str:
     input = snake_case(input)
-    prefix, word = input.rsplit('_', 1)
-    word = inflect.engine().plural(word)
-    return '_'.join([prefix, word])
+    parts = input.rsplit('_', 1)
+    last = parts.pop()
+    last = inflect.engine().plural(last)
+    parts.append(last)
+    return '_'.join(parts)

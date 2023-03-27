@@ -6,10 +6,13 @@ from smuggler import mapper, pre_processor
 from smuggler.storage import Storage, StorageCompression
 
 import smuggler.models as models
-from database import create_db_and_tables
-
+from smuggler.database import create_db_and_tables, get_session
+from smuggler.utils import table_name
 
 apns = ['0107_599_8.03', '0107_599_8.02', '0107_599_8.01', '0107_599_7', '0107_571_16', '0107_599_9']
+
+x = models.School
+print(table_name('Demographics'))
 
 
 def normalize_sections(sections: list[str]) -> list[str]:
@@ -30,6 +33,7 @@ def smuggle_in(apn: str):
     # print(sections)
     # return
 
+    session = get_session()
     for section in sections:
         print(section + ' ^^^^^^^^^^^^^^^^^^^^^')
         json_data = json.loads(storage.load(apn, section))
@@ -48,8 +52,10 @@ def smuggle_in(apn: str):
         for i in items:
             print(i.schema()['title'])
             # print(i.json())
-            print(i)
+            # print(i)
+            session.add(i)
 
+        session.commit()
         print("\n")
 
 

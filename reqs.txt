@@ -9,3 +9,4 @@ pydbantic
 SQLAlchemy
 sqlmodel
 snakecase
+python-slugify

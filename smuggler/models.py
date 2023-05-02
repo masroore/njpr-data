@@ -210,7 +210,9 @@ class PropertyInformation(SQLModel, table=True):
 
 class MunicipalityTaxRate(SQLModelExt, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    municipality_id: Optional[int] = Field(default=None, index=True, foreign_key="municipalities.id")
+    municipality_id: Optional[int] = Field(
+        default=None, index=True, foreign_key="municipalities.id"
+    )
     year: int
     tax_rate: Optional[float] = None
     ratio: Optional[float] = None
@@ -1281,7 +1283,7 @@ class StatisticTypes(IntEnum):
 
 
 class Demographics(SQLModel, table=True):
-    __tablename__ = 'demographics'
+    __tablename__ = "demographics"
     id: Optional[int] = Field(default=None, primary_key=True)
     property_id: int = Field(index=True, foreign_key="properties.id")
     # quick_facts
@@ -1292,14 +1294,14 @@ class Demographics(SQLModel, table=True):
     education_percentage: Optional[float] = None
     employment_percentage: Optional[float] = None
 
-    '''
+    """
     age: Optional[list[DemographicStatistic]] = None
     education: Optional[list[DemographicStatistic]] = None
     household_size: Optional[list[DemographicStatistic]] = None
     income: Optional[list[DemographicStatistic]] = None
     residence: Optional[list[DemographicStatistic]] = None
     sex: Optional[list[DemographicStatistic]] = None
-    '''
+    """
 
 
 class DemographicStatistic(SQLModelExt, table=True):

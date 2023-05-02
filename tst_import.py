@@ -1,33 +1,31 @@
+import json
 import os
 
-import json
-
-from smuggler import mapper, pre_processor
-from smuggler.storage import Storage, StorageCompression
-
 import smuggler.models as models
+from smuggler import mapper, pre_processor
 from smuggler.database import create_db_and_tables, get_session
+from smuggler.storage import Storage, StorageCompression
 from smuggler.utils import table_name
 
-apns = ['0107_599_8.03', '0107_599_8.02', '0107_599_8.01', '0107_599_7', '0107_571_16', '0107_599_9']
+apns = ["1113_10.02_1", "1110_10001_1", "0101_1.01_1.01"]
 
 x = models.School
-print(table_name('Demographics'))
+print(table_name("Demographics"))
 
 
 def normalize_sections(sections: list[str]) -> list[str]:
     sections = sorted(sections)
-    if not 'main' in sections:
+    if not "main" in sections:
         # return [] # ignore if main is not present
         return sections
 
-    sections.insert(0, sections.pop(sections.index('main')))
+    sections.insert(0, sections.pop(sections.index("main")))
     return sections
 
 
 def smuggle_in(apn: str):
     print(apn + "  ###################################\n")
-    storage = Storage(os.path.abspath('./storage'), compression=StorageCompression.LZMA)
+    storage = Storage(os.path.abspath("./storage/json"), compression=StorageCompression.LZMA)
     sections = storage.list_sections_for_apn(apn)
     sections = normalize_sections(sections)
     # print(sections)
@@ -35,7 +33,7 @@ def smuggle_in(apn: str):
 
     session = get_session()
     for section in sections:
-        print(section + ' ^^^^^^^^^^^^^^^^^^^^^')
+        print(section + " ^^^^^^^^^^^^^^^^^^^^^")
         json_data = json.loads(storage.load(apn, section))
         sort_ = False
         if isinstance(json_data, list):
@@ -50,7 +48,7 @@ def smuggle_in(apn: str):
 
         items = mapper.map(reshaped_data, section)
         for i in items:
-            print(i.schema()['title'])
+            print(i.schema()["title"])
             # print(i.json())
             # print(i)
             session.add(i)

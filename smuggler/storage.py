@@ -66,7 +66,7 @@ class Storage(object):
 
     def _remove_suffix(self, filename: str) -> str:
         if self._ext_suffix and filename.endswith(self._ext_suffix):
-            return filename[:-len(self._ext_suffix)]
+            return filename[: -len(self._ext_suffix)]
 
         return filename
 
